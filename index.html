@@ -1166,7 +1166,7 @@ function renderFocusSessions() {
 async function generateGeminiText(userPrompt, sysPrompt) {
   // NOTE: For local usage outside of this Canvas, replace the empty string with your key:
   // const apiKey = "AQ.Ab8RN6IJATCArZyjg6lN0uyrSE0a7tzvm2KykHJFERpNOrlj8Q";
-  const apiKey = ""; // provided at runtime environment
+  const apiKey = "AQ.Ab8RN6IJATCArZyjg6lN0uyrSE0a7tzvm2KykHJFERpNOrlj8Q"; // provided at runtime environment
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
   
   const maxRetries = 5;
@@ -1404,7 +1404,7 @@ async function triggerLumiMessage(customText = null) {
 }
 
 async function sendMessageToLumi(userText) {
-  const apiKey = ""; // provided at runtime environment
+  const apiKey = "AQ.Ab8RN6IJATCArZyjg6lN0uyrSE0a7tzvm2KykHJFERpNOrlj8Q"; // provided at runtime environment
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
 
   const recentContext = getLumiContext();
