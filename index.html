@@ -34,11 +34,8 @@
         extend: {
           fontFamily: { sans: ['Inter', 'sans-serif'] },
           colors: {
-            // Cyan-based brand palette
             brand: { 50: '#ecfeff', 100: '#cffafe', 200: '#a5f3fc', 400: '#22d3ee', 500: '#06b6d4', 600: '#0891b2', 700: '#0e7490', 900: '#164e63' },
-            // Electric Blue accents
             accent: { 500: '#0052ff', 600: '#0043d1' },
-            // Deeper, richer dark background
             slate: { 950: '#050b14', 900: '#0a1120', 850: '#0f172a', 800: '#1e293b' }
           },
           boxShadow: {
@@ -56,14 +53,12 @@
   <style>
     body { background-color: #fafbfd; transition: background-color 0.4s ease; -webkit-tap-highlight-color: transparent; }
     
-    /* The new deep dark mode with a subtle cyan dot-grid */
     .dark body { 
       background-color: #050b14; 
       background-image: radial-gradient(rgba(6, 182, 212, 0.1) 1px, transparent 1px);
       background-size: 24px 24px;
     }
 
-    /* Dynamic Mood Themes */
     body.theme-ocean.dark {
         background-color: #020617 !important;
         background-image: radial-gradient(rgba(2, 132, 199, 0.1) 1px, transparent 1px) !important;
@@ -80,7 +75,6 @@
     body.theme-amber.dark .b2 { background: radial-gradient(circle, #fbbf24 0%, #290f00 100%) !important; }
     body.theme-amber.dark .glass-panel { border-color: rgba(2, 132, 199, 0.2) !important; box-shadow: 0 10px 30px -10px rgba(245, 158, 11, 0.15) !important; }
 
-    /* Zen Mode: Fullscreen Technical Electric Blue Grid */
     body.zen-active {
         background-color: #050b14 !important;
         background-image: 
@@ -119,14 +113,12 @@
         100% { filter: drop-shadow(0 0 10px rgba(0, 82, 255, 1)); }
     }
 
-    /* Moving Ambient Gradient */
     .ambient-bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; transition: all 1s ease; }
     .blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.35; animation: drift 25s infinite ease-in-out alternate; transition: all 1s ease; }
     .b1 { width: 500px; height: 500px; background: radial-gradient(circle, #a5f3fc 0%, #818cf8 100%); top: -10%; left: -10%; }
     .b2 { width: 450px; height: 450px; background: radial-gradient(circle, #99f6e4 0%, #2dd4bf 100%); bottom: -10%; right: -10%; animation-delay: -7s; }
     .b3 { width: 350px; height: 350px; background: radial-gradient(circle, #fbcfe8 0%, #fda4af 100%); top: 40%; left: 35%; animation-delay: -14s; }
     
-    /* Update ambient blobs for the new palette */
     .dark .b1 { background: radial-gradient(circle, #0052ff 0%, #050b14 100%); opacity: 0.15; }
     .dark .b2 { background: radial-gradient(circle, #06b6d4 0%, #050b14 100%); opacity: 0.15; }
     .dark .b3 { background: radial-gradient(circle, #0ea5e9 0%, #050b14 100%); opacity: 0.1; }
@@ -137,16 +129,13 @@
       100% { transform: translate(-20px, 40px) rotate(360deg) scale(0.9); }
     }
 
-    /* Elegant Satin Glass Base */
     .glass-panel { background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.5); transition: border-color 0.5s, box-shadow 0.5s; }
     .dark .glass-panel { background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255, 255, 255, 0.05); }
 
-    /* Tabs Animation Frame */
     .section { display: none; animation: slideUpSmooth 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
     .section.active { display: block; }
     @keyframes slideUpSmooth { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* Premium Bottom Navigation Active indicator */
     .nav-btn { color: #64748b; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
     .dark .nav-btn { color: #94a3b8; }
     .nav-btn.active { color: #0d9488; }
@@ -154,14 +143,12 @@
     .nav-btn .nav-dot { width: 4px; height: 4px; border-radius: 50%; background-color: currentColor; opacity: 0; transform: scale(0.5); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
     .nav-btn.active .nav-dot { opacity: 1; transform: scale(1); }
 
-    /* Fine-tuned Interactive States */
     .mood-btn { transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: var(--tw-shadow-inner-glow); }
     .dark .mood-btn { box-shadow: var(--tw-shadow-inner-glow-dark); }
     .mood-btn:active { transform: scale(0.95); }
     .cal-day { aspect-ratio: 1; transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
     .cal-day:hover { transform: scale(1.08) translateY(-2px); z-index: 10; }
 
-    /* Calendar Day Color Gradients */
     .cd-empty { background: transparent; color: transparent; pointer-events: none; }
     .cd-none  { background: rgba(241, 245, 249, 0.4); color: #94a3b8; }
     .dark .cd-none { background: rgba(30, 41, 59, 0.3); color: #475569; }
@@ -174,7 +161,15 @@
     .cd-upcoming { background: linear-gradient(135deg, #a5f3fc, #06b6d4); color: #164e63; box-shadow: 0 4px 12px rgba(6, 182, 212, 0.2); }
     .dark .cd-upcoming { background: linear-gradient(135deg, #164e63, #0891b2); color: #ecfeff; box-shadow: 0 4px 12px rgba(6, 182, 212, 0.15); }
 
-    /* Custom Scrollbar */
+    /* Custom styles matching standard system defaults */
+    .hm-capsule-empty { background-color: #e2e8f0; }
+    .dark .hm-capsule-empty { background-color: #1e293b; }
+    .hm-capsule-great { background: #14b8a6; }
+    .hm-capsule-good { background: #eab308; }
+    .hm-capsule-neutral { background: #94a3b8; }
+    .hm-capsule-hard { background: #f97316; }
+    .hm-capsule-stressed { background: #f43f5e; }
+
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
@@ -182,7 +177,6 @@
     .scrollbar-none::-webkit-scrollbar { display: none; }
     .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
 
-    /* ── Add to Home Screen Button ── */
     @keyframes a2hs-pulse {
       0%, 100% { box-shadow: 0 0 0 0 rgba(13,148,136,0.45); }
       50% { box-shadow: 0 0 0 10px rgba(13,148,136,0); }
@@ -190,7 +184,6 @@
     #a2hs-btn { animation: a2hs-pulse 2.4s ease-in-out infinite; }
     #a2hs-btn:active { transform: scale(0.97); }
 
-    /* ── iOS instruction modal ── */
     #ios-modal {
       position: fixed; inset: 0; z-index: 200;
       background: rgba(0,0,0,0.55); backdrop-filter: blur(6px);
@@ -229,7 +222,6 @@
       background: #007aff; border-radius: 6px; padding: 3px;
     }
     .ios-share-icon svg { width: 100%; height: 100%; fill: white; }
-    /* Arrow pointing to the real iOS share bar */
     #ios-arrow {
       position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
       width: 0; height: 0;
@@ -284,7 +276,7 @@
         <button class="av-btn w-full h-12 rounded-xl text-xl bg-white/60 dark:bg-slate-800/40 border-2 border-transparent flex items-center justify-center transform active:scale-95 transition-all hover:scale-105" onclick="selectAv(this,'🌿')">🌿</button>
         <button class="av-btn w-full h-12 rounded-xl text-xl bg-white/60 dark:bg-slate-800/40 border-2 border-transparent flex items-center justify-center transform active:scale-95 transition-all hover:scale-105" onclick="selectAv(this,'🌊')">🌊</button>
         <button class="av-btn w-full h-12 rounded-xl text-xl bg-white/60 dark:bg-slate-800/40 border-2 border-transparent flex items-center justify-center transform active:scale-95 transition-all hover:scale-105" onclick="selectAv(this,'☀️')">☀️</button>
-        <button class="av-btn w-full h-12 rounded-xl text-xl bg-white/60 dark:bg-slate-800/40 border-2 border-transparent flex items-center justify-center transform active:scale-95 transition-all hover:scale-105" onclick="selectAv(this,'🌙')">🌙</button>
+        <button class="av-btn w-full h-10 rounded-xl text-lg bg-white/60 dark:bg-slate-800/40 border border-transparent transition-all flex items-center justify-center hover:scale-105" onclick="selectEditAv(this,'🌙')">🌙</button>
         <button class="av-btn w-full h-12 rounded-xl text-xl bg-white/60 dark:bg-slate-800/40 border-2 border-transparent flex items-center justify-center transform active:scale-95 transition-all hover:scale-105" onclick="selectAv(this,'🦋')">🦋</button>
         <button class="av-btn w-full h-12 rounded-xl text-xl bg-white/60 dark:bg-slate-800/40 border-2 border-transparent flex items-center justify-center transform active:scale-95 transition-all hover:scale-105" onclick="selectAv(this,'🧘')">🧘</button>
         <button class="av-btn w-full h-12 rounded-xl text-xl bg-white/60 dark:bg-slate-800/40 border-2 border-transparent flex items-center justify-center transform active:scale-95 transition-all hover:scale-105" onclick="selectAv(this,'✨')">✨</button>
@@ -543,7 +535,6 @@
         </div>
       </div>
 
-      <!-- Habit Stacking Post-Session Card -->
       <div id="habit-stack-card" class="glass-panel shadow-premium dark:shadow-premium-dark rounded-3xl p-8 mb-6 text-center" style="display:none;">
         <h3 class="text-xs font-bold uppercase tracking-widest text-brand-500 mb-4 flex items-center justify-center gap-2">
           <i data-lucide="check-square" class="w-4 h-4"></i> Habit Stacking
@@ -610,10 +601,10 @@
       </div>
 
       <div class="glass-panel shadow-premium dark:shadow-premium-dark rounded-3xl p-6">
-        <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-4 flex items-center gap-2">
+        <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-6 flex items-center gap-2">
           <i data-lucide="bar-chart-2" class="w-3.5 h-3.5 text-brand-500"></i> Heatmap Calendar
         </h3>
-        <div id="heatmap-wrap" class="mb-5"></div>
+        <div id="heatmap-wrap" class="mb-6"></div>
         <div class="flex flex-wrap justify-center gap-x-4 gap-y-2 text-[9px] font-bold text-slate-400 uppercase tracking-widest">
           <span class="flex items-center gap-1.5"><div class="w-2.5 h-2.5 rounded-full bg-emerald-500"></div> Great</span>
           <span class="flex items-center gap-1.5"><div class="w-2.5 h-2.5 rounded-full bg-yellow-400"></div> Good</span>
@@ -773,13 +764,10 @@
 </div>
 
 <script>
-// Initialize Icons
 lucide.createIcons();
 
-// Date stamp in header
 document.getElementById('current-date-display').textContent = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
 
-// ─── PWA & Add to Home Screen ────────────────────────────────────
 let _a2hsDeferredPrompt = null;
 
 (function initPWA() {
@@ -790,29 +778,25 @@ let _a2hsDeferredPrompt = null;
       document.referrer.includes('android-app://');
 
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    const isInChrome = /CriOS/.test(navigator.userAgent); // Chrome on iOS
+    const isInChrome = /CriOS/.test(navigator.userAgent);
 
     const a2hsBtn    = document.getElementById('a2hs-btn');
     const a2hsAlready = document.getElementById('a2hs-already');
     const pwaBanner  = document.getElementById('pwa-banner');
     const pwaBtn     = document.getElementById('pwa-btn');
 
-    // ── Already installed: hide button, show confirmation ──
     if (isStandalone) {
       if (a2hsBtn)    a2hsBtn.style.display    = 'none';
       if (a2hsAlready) a2hsAlready.classList.remove('hidden');
       return;
     }
 
-    // ── Android / Chrome Desktop: capture native install prompt ──
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       _a2hsDeferredPrompt = e;
-      // Also show the top banner
       if (pwaBanner) pwaBanner.classList.remove('-translate-y-full');
     });
 
-    // Top-banner "Add App" button (Android)
     if (pwaBtn) {
       pwaBtn.addEventListener('click', async () => {
         if (_a2hsDeferredPrompt) {
@@ -824,7 +808,6 @@ let _a2hsDeferredPrompt = null;
       });
     }
 
-    // After install fires, hide everything
     window.addEventListener('appinstalled', () => {
       if (pwaBanner) pwaBanner.classList.add('-translate-y-full');
       if (a2hsBtn)  a2hsBtn.style.display = 'none';
@@ -832,10 +815,7 @@ let _a2hsDeferredPrompt = null;
       _a2hsDeferredPrompt = null;
     });
 
-    // iOS Safari: show button (it opens the modal guide)
-    // iOS Chrome: can't install at all, hide button
     if (isIOS && isInChrome && a2hsBtn) {
-      // Chrome on iOS can't install PWAs — show a helpful note instead
       a2hsBtn.textContent = '⚠️ Open in Safari to install';
       a2hsBtn.style.background = 'linear-gradient(135deg,#f59e0b,#d97706)';
       a2hsBtn.onclick = () => alert('Please open this page in Safari (not Chrome) to add it to your home screen.');
@@ -843,12 +823,10 @@ let _a2hsDeferredPrompt = null;
   } catch(e) { console.warn('PWA init error', e); }
 })();
 
-// ── Called by both the setup-screen button and top banner ──
 function triggerA2HS() {
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
   if (_a2hsDeferredPrompt) {
-    // Android / Chrome Desktop — native prompt available
     _a2hsDeferredPrompt.prompt();
     _a2hsDeferredPrompt.userChoice.then(({ outcome }) => {
       if (outcome === 'accepted') {
@@ -860,10 +838,8 @@ function triggerA2HS() {
       _a2hsDeferredPrompt = null;
     });
   } else if (isIOS) {
-    // iPhone / iPad Safari — open the step-by-step modal
     openIOSModal();
   } else {
-    // Already installed or unsupported browser
     const a2hsAlready = document.getElementById('a2hs-already');
     const a2hsBtn     = document.getElementById('a2hs-btn');
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
@@ -871,25 +847,21 @@ function triggerA2HS() {
       if (a2hsBtn)    a2hsBtn.style.display = 'none';
       if (a2hsAlready) a2hsAlready.classList.remove('hidden');
     } else {
-      // Desktop browser where install wasn't triggered yet
       alert('To install: click the install icon (⊕) in your browser address bar, or use the browser menu → "Install app".');
     }
   }
 }
 
-// ── iOS Modal helpers ──
 function openIOSModal() {
   const m = document.getElementById('ios-modal');
   if (m) m.classList.add('open');
 }
 function closeIOSModal(e) {
-  // Close on backdrop click or explicit call
   const m = document.getElementById('ios-modal');
   if (!m) return;
   if (!e || e.target === m) m.classList.remove('open');
 }
 
-// ─── Real Verified Quotes ──────────────────────────────────
 const quotes = [
   { text: "You don't have to be positive all the time. It's okay to feel what you feel.", author: "Lori Deschene" },
   { text: "Almost everything will work again if you unplug it for a few minutes, including you.", author: "Anne Lamott" },
@@ -1188,7 +1160,6 @@ const BADGES = [
   { id:'positive', label:'Glow mindset',     emoji:'😊', desc:'Logged 5 positive moods',         check: (e,f) => e.filter(x=>POSITIVE_MOODS.includes(x.mood)).length >= 5 },
 ];
 
-// ─── App Global State ─────────────────────────────────────────
 let entries       = JSON.parse(localStorage.getItem('ssms7_e')     || '[]');
 let profile       = JSON.parse(localStorage.getItem('ssms7_p')     || 'null');
 let focusSessions = JSON.parse(localStorage.getItem('ssms7_focus') || '[]');
@@ -1209,10 +1180,9 @@ let breatheCycles    = 0;
 let focusTimer       = null;
 let focusRunning     = false;
 let focusSeconds     = 0;
-let focusEndTime     = 0; // State flag matching background phone sleep protection tracking loops
+let focusEndTime     = 0;
 let focusTopic       = '';
 
-// ─── Init entry ───────────────────────────────────────────────
 function init() {
   applyTheme();
   applyDynamicTheme();
@@ -1225,7 +1195,6 @@ function init() {
   }
 }
 
-// ─── Theme & Zen Toggles ─────────────────────────────────────
 function applyTheme() {
   document.documentElement.classList.toggle('dark', darkMode);
   const btn = document.getElementById('theme-toggle');
@@ -1235,7 +1204,6 @@ function applyTheme() {
   }
 }
 
-// ─── Toggle Visibility of Custom focus input ─────────────────
 function toggleCustomDurationInput() {
   const dropdown = document.getElementById('focus-duration');
   const customContainer = document.getElementById('custom-duration-container');
@@ -1277,7 +1245,6 @@ function toggleZenMode() {
   lucide.createIcons();
 }
 
-// ─── Onboarding setups ────────────────────────────────────────
 function selectAv(el, av) {
   document.querySelectorAll('#avatar-row .av-btn').forEach(b => {
     b.classList.remove('border-brand-500');
@@ -1305,7 +1272,6 @@ function saveProfile() {
   showMainApp();
 }
 
-// ─── Main Display trigger ────────────────────────────────────
 function showMainApp() {
   document.getElementById('setup-screen').style.display = 'none';
   document.getElementById('main-app').style.display     = 'block';
@@ -1314,7 +1280,6 @@ function showMainApp() {
   updateStreaks();
   initLumiChat();
   
-  // Random Quote from real people
   const idx = Math.floor(Math.random() * quotes.length);
   document.getElementById('quote-text').textContent   = quotes[idx].text;
   document.getElementById('quote-author').textContent = '— ' + quotes[idx].author;
@@ -1356,7 +1321,6 @@ function resetAll() {
   }
 }
 
-// ─── Daily streak metrics ────────────────────────────────────
 function updateStreaks() {
   document.getElementById('total-num').textContent = entries.length;
   const s = calcStreak();
@@ -1391,7 +1355,6 @@ function calcStreak() {
   return currentStreak;
 }
 
-// ─── Achievements Badges render ──────────────────────────────────
 function renderBadges() {
   const container = document.getElementById('badges-row');
   if (!container) return;
@@ -1408,7 +1371,6 @@ function renderBadges() {
   ).join('');
 }
 
-// ─── Navigation Tabs System ──────────────────────────────────
 function showTab(id, el) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
@@ -1430,14 +1392,12 @@ function showTab(id, el) {
 }
 
 function goToBreathe() {
-  // Finds the 2nd button in the nav, which is the Breathe button
   const navBtns = document.querySelectorAll('.nav-btn');
   if(navBtns.length > 1) {
     showTab('breathe', navBtns[1]);
   }
 }
 
-// ─── Mood Log ────────────────────────────────────────────────
 function selectMood(mood, el) {
   document.querySelectorAll('.mood-btn').forEach(b => {
     b.classList.remove('!border-brand-500', '!bg-brand-100', 'dark:!bg-brand-900/50', 'scale-105', 'shadow-glow-brand');
@@ -1470,7 +1430,7 @@ function logMood(silent = false) {
   updateStreaks();
   renderHistory();
 
-  if(silent) return; // For Lumi API auto-logging
+  if(silent) return;
 
   const isDifficult = DIFFICULT_MOODS.includes(currentMood);
   const sc = entries.slice(-7).filter(e => DIFFICULT_MOODS.includes(e.mood)).length;
@@ -1532,11 +1492,9 @@ function completeSugg(el) {
   }
 }
 
-// ─── Utility Array Helpers ───
 function pickN(arr, n) { return [...arr].sort(() => Math.random() - 0.5).slice(0, n); }
 function showFeedback(html) { document.getElementById('feedback').innerHTML = html; }
 
-// ─── History listing ──────────────────────────────────────────
 function renderHistory() {
   const listWrapper = document.getElementById('history-list');
   if (!entries.length) { 
@@ -1559,7 +1517,6 @@ function renderHistory() {
   }).join('');
 }
 
-// ─── Breathing Execution Engine ──────────────────────────────
 function setPattern(key, el) {
   document.querySelectorAll('.pat-btn').forEach(b => {
     b.classList.remove('sel', 'bg-white', 'dark:bg-slate-800', 'text-slate-800', 'dark:text-white', 'shadow-sm');
@@ -1675,7 +1632,6 @@ function runPhase() {
   tick();
 }
 
-// ─── Focus Workspace Timer (With Screen-Off Real Timestamp Protection) ───
 function startFocus() {
   const topic = document.getElementById('focus-topic').value.trim() || 'Zen Space';
   const dropdown = document.getElementById('focus-duration');
@@ -1700,7 +1656,7 @@ function startFocus() {
   
   updateTimerDisplay();
   focusRunning = true;
-  focusTimer   = setInterval(tickFocus, 250); // Frequent poll check safeguards delta drops
+  focusTimer   = setInterval(tickFocus, 250);
 }
 
 function tickFocus() {
@@ -1726,7 +1682,7 @@ function toggleFocus() {
   const btn = document.getElementById('timer-pause-btn');
   if (focusRunning) {
       btn.textContent = 'Pause';
-      focusEndTime = Date.now() + (focusSeconds * 1000); // Recalculate end timestamp relative to dynamic delta offset
+      focusEndTime = Date.now() + (focusSeconds * 1000);
   } else {
       btn.textContent = 'Resume';
   }
@@ -1764,7 +1720,6 @@ function finishFocusStack() {
   document.getElementById('habit-stack-card').style.display = 'none';
   document.getElementById('focus-start-btn').closest('.glass-panel').style.display = 'block';
   
-  // Uncheck all boxes
   document.querySelectorAll('#habit-stack-card input[type="checkbox"]').forEach(cb => cb.checked = false);
   
   renderFocusSessions();
@@ -1798,7 +1753,6 @@ function renderFocusSessions() {
   lucide.createIcons();
 }
 
-// ─── Local Analytics Insight Box Generator ───
 function generateWeeklyInsight() {
   const insightEl = document.getElementById('insight');
   insightEl.innerHTML = '<span class="animate-pulse flex justify-center gap-2 text-brand-600 dark:text-brand-400 font-bold">✨ Lumi is analyzing your week...</span>';
@@ -1830,7 +1784,6 @@ function generateWeeklyInsight() {
   }, 700);
 }
 
-// ─── Lumi AI Companion Space Logic ─────────────────────────────
 function initLumiChat() {
   if (lumiMessages.length === 0) {
     const compName = profile?.name || 'Friend';
@@ -1887,7 +1840,16 @@ function parseMiniMarkdown(t) {
   return t.replace(/\*\*(.*?)\*\*/g, '<strong class="font-extrabold text-brand-600 dark:text-brand-400">$1</strong>');
 }
 
-// ─── Save and Export Local Data Functions ────────────────────
+function handleLumiKey(event) {
+  if (event.key === 'Enter') {
+    triggerLumiMessage();
+  }
+}
+
+function sendQuickPrompt(promptText) {
+  triggerLumiMessage(promptText);
+}
+
 function exportData() {
   const exportObj = {
     profile: JSON.parse(localStorage.getItem('ssms7_p')),
@@ -1922,7 +1884,6 @@ function importData(event) {
   reader.readAsText(file);
 }
 
-// ─── Safe Time Stamp calculations ──────────────────────────────
 function timeAgo(ts) {
   const m = Math.floor((Date.now() - ts) / 60000);
   if (m < 1)  return 'just now';
@@ -1932,10 +1893,8 @@ function timeAgo(ts) {
   return Math.floor(h / 24) + 'd ago';
 }
 
-// ─── Initialize Application ──────────────────────────────────
 init();
 
-// ─── Background Star Ambient Canvas Loop ─────────────────────
 (function() {
   function initMoodStars() {
     const canvas = document.getElementById('mood-stars');
@@ -2094,9 +2053,8 @@ function confirmAiLogMood(index) {
 
   currentMood = msg.suggestedMood;
   document.getElementById('note').value = msg.suggestedNote || '';
-  logMood(true); // Silent log
+  logMood(true);
 
-  // Update UI state
   msg.moodLogged = true;
   localStorage.setItem('ssms7_lumi', JSON.stringify(lumiMessages));
   renderLumiMessages();
@@ -2111,12 +2069,10 @@ async function triggerLumiMessage(customText = null) {
     inputEl.value = '';
   }
   
-  // Add User Message
   lumiMessages.push({ sender: 'user', text: text, ts: Date.now() });
   localStorage.setItem('ssms7_lumi', JSON.stringify(lumiMessages));
   renderLumiMessages();
   
-  // Active Typing Loader
   const typingEl = document.getElementById('lumi-typing');
   typingEl.classList.remove('hidden');
   typingEl.classList.add('flex');
@@ -2125,7 +2081,6 @@ async function triggerLumiMessage(customText = null) {
   const aiConfigured = !LUMI_WORKER_URL.includes('YOUR-WORKER-NAME');
 
   if (aiConfigured) {
-    // ── Real AI mode (via Cloudflare Worker proxy) ──────────────
     try {
       responseText = await fetchLumiAIResponse(text);
     } catch (err) {
@@ -2133,7 +2088,6 @@ async function triggerLumiMessage(customText = null) {
       responseText = getLumiFallbackResponse(text);
     }
   } else {
-    // ── Offline fallback mode (Worker not configured yet) ───────
     await new Promise(r => setTimeout(r, 800));
     responseText = getLumiFallbackResponse(text);
   }
@@ -2141,7 +2095,6 @@ async function triggerLumiMessage(customText = null) {
   let suggestedMood = null;
   let suggestedNote = null;
 
-  // Process secret log tags (works for both AI and offline replies)
   const moodMatch = responseText.match(/\[LOG_MOOD:\s*([a-z]+)\]/i);
   if (moodMatch) {
       const isMotivationRequest = text.toLowerCase().includes('motivation');
@@ -2159,7 +2112,6 @@ async function triggerLumiMessage(customText = null) {
   typingEl.classList.add('hidden');
   typingEl.classList.remove('flex');
   
-  // Add Lumi Response
   let aiMsg = { sender: 'lumi', text: responseText, ts: Date.now() };
   if (suggestedMood) {
       aiMsg.suggestedMood = suggestedMood;
@@ -2172,7 +2124,6 @@ async function triggerLumiMessage(customText = null) {
   renderLumiMessages();
 }
 
-// ─── Real AI Integration (via Cloudflare Worker proxy → Gemini) ──
 const LUMI_WORKER_URL = 'https://lumi-proxy.prathikmothilal.workers.dev';
 
 async function fetchLumiAIResponse(latestUserText) {
@@ -2197,7 +2148,6 @@ ${context}
 
 If the user shares how they are feeling in a way that maps to a specific mood (happy, sad, anxious, angry, calm, tired, excited, stressed), end your reply with a hidden tag on its own line: [LOG_MOOD:mood].`;
 
-  // Build short rolling history (last 10 messages) for conversational context
   const history = lumiMessages.slice(-10).map(m => ({
     role: m.sender === 'lumi' ? 'model' : 'user',
     parts: [{ text: m.text.replace(/\[LOG_MOOD:\s*[a-z]+\]/i, '').trim() }]
@@ -2226,7 +2176,6 @@ If the user shares how they are feeling in a way that maps to a specific mood (h
   return reply.trim();
 }
 
-// ─── Lumi Settings (AI API Key) ────────────────────────────────────
 function openLumiSettings() {
   const aiConfigured = !LUMI_WORKER_URL.includes('YOUR-WORKER-NAME');
   if (aiConfigured) {
@@ -2236,7 +2185,6 @@ function openLumiSettings() {
   }
 }
 
-// ─── Lumi Offline Analytics Engine Fallback ───
 function getLumiFallbackResponse(text) {
   const query = text.toLowerCase().trim();
   const name = profile?.name || 'Friend';
@@ -2246,7 +2194,6 @@ function getLumiFallbackResponse(text) {
   const moodEmoji = lastMood ? (moodInfo[lastMood]?.emoji || '💭') : '';
   const streak = calcStreak();
 
-  // Trigger Local Written Feeling Analyst Engine
   if (query.includes('analyze') || query.includes('read') || query.includes('my log') || query.includes('feedback')) {
     if (!lastEntry) {
       return `You actually haven't logged any feelings today yet, **${name}**. If you hop over to the **Log** tab and write down what's on your mind, I can give it a read and we can chat about it!`;
@@ -2412,7 +2359,6 @@ function renderCalendar() {
   document.getElementById('cal-grid').innerHTML = cells;
 }
 
-// ─── advanced calendar journaling reflection box helper ───
 function openCalDay(y, m, d) {
   const date = new Date(y, m, d);
   const label = date.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' });
@@ -2445,7 +2391,6 @@ function openCalDay(y, m, d) {
     }).join('');
   }
 
-  // Allow writing reminders/notes for ANY active or upcoming window layouts
   html += `
     <div class="mt-6 pt-2">
        <h4 class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-3">
@@ -2500,7 +2445,7 @@ function closeCalModal(e) {
   }
 }
 
-// ─── Analytics Insight Box Generator (Swapped to Ring Chart style) ───
+// ─── Analytics Insight Box Generator (With Horizontal Weekly Capsule Layout) ───
 function renderReport() {
   const total = entries.length;
   const difficult = entries.filter(e => DIFFICULT_MOODS.includes(e.mood)).length;
@@ -2510,28 +2455,54 @@ function renderReport() {
   document.getElementById('r-stress').textContent = difficult;
   document.getElementById('r-happy').textContent = positive;
   
-  // Render Heatmap view inside report analytics dashboard window frame block
+  // Weekly capsule alignment logic matching image_cd7899.png structural presentation
   const wrap = document.getElementById('heatmap-wrap');
   if(wrap) {
-    let html = '<div class="grid grid-cols-7 gap-1 mx-auto max-w-[240px]">';
-    for(let i=1; i<=28; i++) {
-       let bg = 'bg-slate-100 dark:bg-slate-800';
-       if(i % 7 === 0) bg = 'bg-emerald-500';
-       else if(i % 5 === 0) bg = 'bg-yellow-400';
-       else if(i % 9 === 0) bg = 'bg-rose-500';
-       html += `<div class="w-6 h-6 rounded-md ${bg} opacity-60"></div>`;
+    const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+    let html = '<div class="flex items-center justify-between gap-1 w-full max-w-md mx-auto px-2">';
+    
+    const now = new Date();
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(now.getDate() - i);
+      
+      const dayEntries = entries.filter(e => new Date(e.ts).toDateString() === d.toDateString());
+      let capsuleClass = 'hm-capsule-empty h-8 w-full rounded-full max-w-[48px]'; 
+      
+      if (dayEntries.length > 0) {
+        let pos = 0, neg = 0;
+        dayEntries.forEach(e => {
+          const cat = moodInfo[e.mood]?.cat || 'neutral';
+          if (cat === 'positive') pos++;
+          else if (cat === 'difficult' || cat === 'tired') neg++;
+        });
+        
+        const diff = pos - neg;
+        if ((pos > 0 && neg === 0) || diff >= 3) capsuleClass = 'hm-capsule-great h-8 w-full rounded-full max-w-[48px]';
+        else if ((neg > 0 && pos === 0) || diff <= -3) capsuleClass = 'hm-capsule-stressed h-8 w-full rounded-full max-w-[48px]';
+        else if (diff > 0) capsuleClass = 'hm-capsule-good h-8 w-full rounded-full max-w-[48px]';
+        else if (diff < 0) capsuleClass = 'hm-capsule-hard h-8 w-full rounded-full max-w-[48px]';
+        else capsuleClass = 'hm-capsule-neutral h-8 w-full rounded-full max-w-[48px]';
+      }
+      
+      const isToday = d.toDateString() === now.toDateString();
+      const textWeightClass = isToday ? 'font-extrabold text-slate-800 dark:text-white' : 'font-semibold text-slate-400 dark:text-slate-500';
+
+      html += `
+        <div class="flex flex-col items-center gap-3 flex-1">
+          <div class="${capsuleClass}"></div>
+          <span class="text-[10px] uppercase tracking-wider ${textWeightClass}">${days[d.getDay()]}</span>
+        </div>`;
     }
     html += '</div>';
     wrap.innerHTML = html;
   }
 
-  // Ring Chart layout payload implementation structure matching Pic 2 configuration explicitly
   const ctx = document.getElementById('moodChart');
   if (!ctx) return;
   
   if (moodChart) { moodChart.destroy(); }
   
-  // Custom interactive fallback data injection if zero logs are provided to safely draw empty preview rings
   const chartPositiveVal = positive || 2;
   const chartDifficultVal = difficult || 4;
 
