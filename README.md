@@ -52,24 +52,6 @@ Once added, the app opens full-screen with **no browser UI** and your logo appea
 
 ---
 
-## 🤖 Connecting Lumi to a Real AI (Free)
+## 🤖Lumi-Real AI
+Lumi is using real AI for every visitor, with the API key kept safely on the server side. If the AI request ever fails (rate limit, offline, etc.), Lumi automatically falls back to its built-in offline responses.
 
-By default, Lumi uses built-in offline responses. To give Lumi real AI conversations using Google's free-tier Gemini model, without ever exposing your API key publicly:
-
-1. **Get a free Gemini API key**
-   - Go to https://aistudio.google.com/app/apikey, sign in, and click "Create API key".
-
-2. **Deploy the included `worker.js` to Cloudflare Workers** (free tier)
-   - Go to https://dash.cloudflare.com → Workers & Pages → Create → Worker
-   - Paste in the contents of `worker.js`, click Deploy
-   - In the Worker's Settings → Variables, add a **secret** named `GEMINI_API_KEY` with the key from step 1
-   - (Optional) Add a variable `ALLOWED_ORIGIN` set to your site's URL (e.g. `https://yourname.github.io`) to restrict who can use the proxy
-
-3. **Point your site at the Worker**
-   - Copy your Worker's URL (e.g. `https://lumi-proxy.yourname.workers.dev`)
-   - Open `index.html`, find the line `const LUMI_WORKER_URL = 'https://YOUR-WORKER-NAME.YOUR-SUBDOMAIN.workers.dev';`
-   - Replace it with your Worker's URL
-
-That's it — Lumi will now use real AI for every visitor, with your key kept safely on the server side. If the AI request ever fails (rate limit, offline, etc.), Lumi automatically falls back to its built-in offline responses.
-
-**Note on free limits:** Gemini's free tier has generous but finite daily/per-minute limits. If your site gets a lot of traffic, all visitors share the same quota since they go through one Worker and one key.
