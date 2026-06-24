@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-title" content="Mind Vault" />
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png" />
-  <link rel="shortcut icon" href="favicon.ico" />
+  <link class="shortcut icon" href="favicon.ico" />
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
@@ -2503,8 +2503,12 @@ function renderReport() {
   
   if (moodChart) { moodChart.destroy(); }
   
-  const chartPositiveVal = positive || 2;
-  const chartDifficultVal = difficult || 4;
+  // FIXED: Split equally (50/50) with neutral colors when no logged entries exist
+  const chartPositiveVal = (positive === 0 && difficult === 0) ? 1 : positive;
+  const chartDifficultVal = (positive === 0 && difficult === 0) ? 1 : difficult;
+  const chartColors = (positive === 0 && difficult === 0) 
+    ? (darkMode ? ['#1e293b', '#0f172a'] : ['#cbd5e1', '#e2e8f0']) 
+    : ['#14b8a6', '#f43f5e'];
 
   const legendContainer = document.getElementById('chart-legend');
   if (legendContainer) {
@@ -2520,7 +2524,7 @@ function renderReport() {
       labels: ['Positive', 'Difficult'],
       datasets: [{
         data: [chartPositiveVal, chartDifficultVal],
-        backgroundColor: ['#14b8a6', '#f43f5e'],
+        backgroundColor: chartColors,
         borderWidth: 0,
         hoverOffset: 4
       }]
@@ -2531,7 +2535,7 @@ function renderReport() {
       cutout: '76%',
       plugins: { 
         legend: { display: false },
-        tooltip: { enabled: true }
+        tooltip: { enabled: (positive > 0 || difficult > 0) }
       }
     }
   };
