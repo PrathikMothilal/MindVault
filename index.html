@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Mind Vault — Mindfulness & Calm</title>
-  <!-- PWA Meta Tags -->
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#0d9488" />
   <meta name="mobile-web-app-capable" content="yes" />
@@ -14,7 +13,6 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png" />
   <link rel="shortcut icon" href="favicon.ico" />
-  <!-- Service Worker Registration -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
@@ -36,15 +34,19 @@
         extend: {
           fontFamily: { sans: ['Inter', 'sans-serif'] },
           colors: {
-            brand: { 50: '#f0fdfa', 100: '#ccfbf1', 200: '#99f6e4', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e', 900: '#134e4a' },
-            slate: { 950: '#0b0f19' }
+            // Cyan-based brand palette
+            brand: { 50: '#ecfeff', 100: '#cffafe', 200: '#a5f3fc', 400: '#22d3ee', 500: '#06b6d4', 600: '#0891b2', 700: '#0e7490', 900: '#164e63' },
+            // Electric Blue accents
+            accent: { 500: '#0052ff', 600: '#0043d1' },
+            // Deeper, richer dark background
+            slate: { 950: '#050b14', 900: '#0a1120', 850: '#0f172a', 800: '#1e293b' }
           },
           boxShadow: {
             'premium': '0 20px 40px -15px rgba(15, 23, 42, 0.05), 0 0 0 1px rgba(15, 23, 42, 0.02)',
-            'premium-dark': '0 20px 40px -15px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.04)',
+            'premium-dark': '0 20px 40px -15px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(6, 182, 212, 0.1)',
             'inner-glow': 'inset 0 2px 4px 0 rgba(255, 255, 255, 0.40)',
-            'inner-glow-dark': 'inset 0 1px 2px 0 rgba(255, 255, 255, 0.08)',
-            'glow-brand': '0 0 30px rgba(20, 184, 166, 0.25)',
+            'inner-glow-dark': 'inset 0 1px 2px 0 rgba(6, 182, 212, 0.15)',
+            'glow-brand': '0 0 30px rgba(6, 182, 212, 0.35)',
           }
         }
       }
@@ -52,19 +54,82 @@
   </script>
 
   <style>
-    body { background-color: #fafbfd; transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1); -webkit-tap-highlight-color: transparent; }
-    .dark body { background-color: #0b0f19; }
+    body { background-color: #fafbfd; transition: background-color 0.4s ease; -webkit-tap-highlight-color: transparent; }
+    
+    /* The new deep dark mode with a subtle cyan dot-grid */
+    .dark body { 
+      background-color: #050b14; 
+      background-image: radial-gradient(rgba(6, 182, 212, 0.1) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    /* Dynamic Mood Themes */
+    body.theme-ocean.dark {
+        background-color: #020617 !important;
+        background-image: radial-gradient(rgba(2, 132, 199, 0.1) 1px, transparent 1px) !important;
+    }
+    body.theme-ocean.dark .b1 { background: radial-gradient(circle, #0284c7 0%, #082f49 100%) !important; }
+    body.theme-ocean.dark .b2 { background: radial-gradient(circle, #0ea5e9 0%, #0f172a 100%) !important; }
+    body.theme-ocean.dark .glass-panel { border-color: rgba(2, 132, 199, 0.2) !important; box-shadow: 0 10px 30px -10px rgba(2, 132, 199, 0.15) !important; }
+
+    body.theme-amber.dark {
+        background-color: #1a0f00 !important;
+        background-image: radial-gradient(rgba(245, 158, 11, 0.1) 1px, transparent 1px) !important;
+    }
+    body.theme-amber.dark .b1 { background: radial-gradient(circle, #f59e0b 0%, #451a03 100%) !important; }
+    body.theme-amber.dark .b2 { background: radial-gradient(circle, #fbbf24 0%, #290f00 100%) !important; }
+    body.theme-amber.dark .glass-panel { border-color: rgba(2, 132, 199, 0.2) !important; box-shadow: 0 10px 30px -10px rgba(245, 158, 11, 0.15) !important; }
+
+    /* Zen Mode: Fullscreen Technical Electric Blue Grid */
+    body.zen-active {
+        background-color: #050b14 !important;
+        background-image: 
+          linear-gradient(rgba(0, 82, 255, 0.15) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0, 82, 255, 0.15) 1px, transparent 1px) !important;
+        background-size: 40px 40px !important;
+        background-attachment: fixed;
+    }
+    body.zen-active header,
+    body.zen-active #bottom-nav,
+    body.zen-active .ambient-bg,
+    body.zen-active .section:not(#tab-focus) > *,
+    body.zen-active #tab-focus > *:not(#focus-timer-card) {
+        display: none !important;
+    }
+    body.zen-active #main-app {
+        padding-top: 15vh !important;
+        display: flex;
+        justify-content: center;
+        max-width: 100%;
+    }
+    body.zen-active #focus-timer-card {
+        transform: scale(1.15);
+        border: 1px solid rgba(0, 82, 255, 0.4) !important;
+        box-shadow: 0 0 60px rgba(0, 82, 255, 0.15) !important;
+        background: rgba(5, 11, 20, 0.85) !important;
+        backdrop-filter: blur(20px);
+        margin: 0 auto;
+    }
+    body.zen-active #zen-toggle-btn {
+        color: #0052ff !important;
+        animation: pulse-glow 2s infinite alternate;
+    }
+    @keyframes pulse-glow {
+        0% { filter: drop-shadow(0 0 2px rgba(0, 82, 255, 0.5)); }
+        100% { filter: drop-shadow(0 0 10px rgba(0, 82, 255, 1)); }
+    }
 
     /* Moving Ambient Gradient */
-    .ambient-bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
-    .blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.35; animation: drift 25s infinite ease-in-out alternate; }
+    .ambient-bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; transition: all 1s ease; }
+    .blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.35; animation: drift 25s infinite ease-in-out alternate; transition: all 1s ease; }
     .b1 { width: 500px; height: 500px; background: radial-gradient(circle, #a5f3fc 0%, #818cf8 100%); top: -10%; left: -10%; }
     .b2 { width: 450px; height: 450px; background: radial-gradient(circle, #99f6e4 0%, #2dd4bf 100%); bottom: -10%; right: -10%; animation-delay: -7s; }
     .b3 { width: 350px; height: 350px; background: radial-gradient(circle, #fbcfe8 0%, #fda4af 100%); top: 40%; left: 35%; animation-delay: -14s; }
     
-    .dark .b1 { background: radial-gradient(circle, #1e1b4b 0%, #311042 100%); opacity: 0.25; }
-    .dark .b2 { background: radial-gradient(circle, #0d3b33 0%, #064e3b 100%); opacity: 0.25; }
-    .dark .b3 { background: radial-gradient(circle, #3b0764 0%, #1e1b4b 100%); opacity: 0.15; }
+    /* Update ambient blobs for the new palette */
+    .dark .b1 { background: radial-gradient(circle, #0052ff 0%, #050b14 100%); opacity: 0.15; }
+    .dark .b2 { background: radial-gradient(circle, #06b6d4 0%, #050b14 100%); opacity: 0.15; }
+    .dark .b3 { background: radial-gradient(circle, #0ea5e9 0%, #050b14 100%); opacity: 0.1; }
 
     @keyframes drift {
       0% { transform: translate(0, 0) rotate(0deg) scale(1); }
@@ -73,7 +138,7 @@
     }
 
     /* Elegant Satin Glass Base */
-    .glass-panel { background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.5); }
+    .glass-panel { background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.5); transition: border-color 0.5s, box-shadow 0.5s; }
     .dark .glass-panel { background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255, 255, 255, 0.05); }
 
     /* Tabs Animation Frame */
@@ -106,6 +171,8 @@
     .cd-tired { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25); }
     .cd-yellow { background: linear-gradient(135deg, #fde047, #eab308); color: #713f12; box-shadow: 0 4px 12px rgba(234, 179, 8, 0.25); }
     .cd-orange { background: linear-gradient(135deg, #fb923c, #ea580c); color: white; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.25); }
+    .cd-upcoming { background: linear-gradient(135deg, #a5f3fc, #06b6d4); color: #164e63; box-shadow: 0 4px 12px rgba(6, 182, 212, 0.2); }
+    .dark .cd-upcoming { background: linear-gradient(135deg, #164e63, #0891b2); color: #ecfeff; box-shadow: 0 4px 12px rgba(6, 182, 212, 0.15); }
 
     /* Custom Scrollbar */
     ::-webkit-scrollbar { width: 6px; }
@@ -176,7 +243,6 @@
 </head>
 <body class="text-slate-800 dark:text-slate-100 min-h-screen relative font-sans overflow-x-hidden pb-10">
 
-<!-- Animated Backdrop Dynamic Gradient blobs -->
 <div class="ambient-bg">
   <canvas class="fixed inset-0 w-full h-full opacity-65 z-0 pointer-events-none" id="stars-canvas"></canvas>
   <div class="blob b1"></div>
@@ -184,7 +250,6 @@
   <div class="blob b3"></div>
 </div>
 
-<!-- PWA Add to Home Screen Banner -->
 <div id="pwa-banner" class="fixed top-0 left-0 w-full z-[100] transform -translate-y-full transition-transform duration-500 ease-out flex justify-center">
   <div class="bg-brand-600 dark:bg-brand-700 text-white w-full max-w-lg px-5 py-4 flex justify-between items-center shadow-[0_10px_30px_-10px_rgba(20,184,166,0.5)] rounded-b-[2rem] border border-white/20 dark:border-white/10">
      <div class="flex items-center gap-3.5">
@@ -200,13 +265,11 @@
 
 <div class="relative z-10 min-h-screen flex flex-col items-center">
 
-  <!-- SETUP SCREEN -->
   <div id="setup-screen" class="w-full min-h-screen flex items-center justify-center p-4">
     <div class="glass-panel shadow-premium dark:shadow-premium-dark rounded-[2.5rem] p-10 w-full max-w-sm text-center border border-white/60 dark:border-white/5 relative overflow-hidden">
       <div class="absolute -top-12 -left-12 w-24 h-24 bg-brand-500/10 rounded-full filter blur-xl"></div>
       <div class="absolute -bottom-12 -right-12 w-24 h-24 bg-indigo-500/10 rounded-full filter blur-xl"></div>
       
-      <!-- Premium logo area with automatic fallback -->
       <div class="w-16 h-16 bg-brand-50/80 dark:bg-brand-900/30 rounded-2xl mx-auto flex items-center justify-center text-3xl mb-6 shadow-sm overflow-hidden">
         <img src="logo.jpg" alt="Logo" class="w-full h-full object-cover" onerror="this.style.display='none'; document.getElementById('setup-logo-fallback').style.display='block';">
         <span id="setup-logo-fallback" style="display: none;">🌸</span>
@@ -234,7 +297,6 @@
         Enter Mind Vault
       </button>
 
-      <!-- ── Add to Home Screen button (shown only when not already installed) ── -->
       <button id="a2hs-btn"
         onclick="triggerA2HS()"
         class="w-full mt-3 flex items-center justify-center gap-2.5 bg-gradient-to-r from-teal-500 to-cyan-500 text-white font-bold py-4 rounded-xl shadow-lg transition-all">
@@ -247,15 +309,12 @@
     </div>
   </div>
 
-  <!-- MAIN APP -->
   <div id="main-app" style="display:none;" class="w-full max-w-lg px-4 pt-6 pb-28">
 
-    <!-- TOP CONTROL PANEL -->
     <header class="glass-panel shadow-premium dark:shadow-premium-dark rounded-3xl p-6 mb-6 flex flex-col gap-5 relative overflow-hidden">
       <div class="absolute -top-10 -right-10 w-28 h-28 bg-brand-500/5 rounded-full filter blur-xl"></div>
       <div class="flex justify-between items-center relative z-10">
         <div class="flex items-center gap-3">
-          <!-- Small Premium Header Logo -->
           <img src="logo.jpg" alt="Logo" class="w-8 h-8 rounded-lg object-cover shadow-sm shrink-0 border border-white/40 dark:border-slate-800/80" onerror="this.style.display='none';">
           <div>
             <h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white" id="hero-greeting">Hi, Friend</h2>
@@ -288,7 +347,6 @@
       </div>
     </header>
 
-    <!-- TAB: CHECK-IN -->
     <div class="section active" id="tab-checkin">
       <div class="flex items-center gap-2 px-4 py-3 bg-brand-500/10 text-brand-800 dark:text-brand-300 rounded-2xl mb-6 text-xs font-semibold border border-brand-500/10">
         <div class="w-1.5 h-1.5 rounded-full bg-brand-500 animate-ping"></div>
@@ -337,7 +395,6 @@
       </div>
     </div>
 
-    <!-- TAB: BREATHE -->
     <div class="section" id="tab-breathe">
       <div class="glass-panel shadow-premium dark:shadow-premium-dark rounded-3xl p-8 mb-6 flex flex-col items-center">
         <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-5 w-full flex items-center gap-2">
@@ -373,7 +430,6 @@
       </div>
     </div>
 
-    <!-- TAB: LUMI AI COMPANION -->
     <div class="section" id="tab-lumi">
       <div class="glass-panel shadow-premium dark:shadow-premium-dark rounded-3xl p-6 mb-6 flex flex-col h-[520px]">
         
@@ -411,6 +467,7 @@
         </div>
 
         <div class="flex gap-2 overflow-x-auto pb-3 scrollbar-none snap-x snap-mandatory shrink-0" id="lumi-quick-prompts">
+          <button onclick="sendQuickPrompt('Read my latest logged feeling, analyze what I wrote, and give me feedback.')" class="snap-start shrink-0 text-[9px] font-bold uppercase tracking-widest text-brand-600 dark:text-brand-400 bg-brand-50/50 dark:bg-brand-900/20 border border-brand-200 dark:border-brand-800/50 px-3 py-1.5 rounded-xl hover:border-brand-500 transition-colors">✨ Analyze My Log</button>
           <button onclick="sendQuickPrompt('Analyze my latest stats and progress.')" class="snap-start shrink-0 text-[9px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 bg-white/40 dark:bg-slate-800/40 border border-slate-200/40 dark:border-slate-800/50 px-3 py-1.5 rounded-xl hover:border-brand-500 transition-colors">My Progress</button>
           <button onclick="sendQuickPrompt('Can you suggest a fast stress relief exercise?')" class="snap-start shrink-0 text-[9px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 bg-white/40 dark:bg-slate-800/40 border border-slate-200/40 dark:border-slate-800/50 px-3 py-1.5 rounded-xl hover:border-brand-500 transition-colors">Fast Relief</button>
           <button onclick="sendQuickPrompt('Give me a short motivation boost.')" class="snap-start shrink-0 text-[9px] font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 bg-white/40 dark:bg-slate-800/40 border border-slate-200/40 dark:border-slate-800/50 px-3 py-1.5 rounded-xl hover:border-brand-500 transition-colors">Motivation</button>
@@ -428,11 +485,10 @@
       </div>
     </div>
 
-    <!-- TAB: FOCUS -->
     <div class="section" id="tab-focus">
       <div class="glass-panel shadow-premium dark:shadow-premium-dark rounded-3xl p-6 mb-6">
         <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-5 flex items-center gap-2">
-          <i data-lucide="compass" class="w-3.5 h-3.5 text-brand-500"></i> Configure Focus
+          <i data-lucide="play" class="w-3.5 h-3.5 text-brand-500"></i> Configure Focus
         </h3>
         <div class="flex flex-col gap-4 mb-6">
           <div>
@@ -442,13 +498,17 @@
           <div class="grid grid-cols-2 gap-3">
             <div>
               <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-2">Duration</label>
-              <select id="focus-duration" class="w-full bg-white/50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 appearance-none font-medium">
+              <select id="focus-duration" onchange="toggleCustomDurationInput()" class="w-full bg-white/50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 appearance-none font-medium">
                 <option value="25">25 min (Pomodoro)</option>
                 <option value="45">45 min</option>
                 <option value="60">60 min</option>
                 <option value="90">90 min</option>
                 <option value="5">5 min (Test)</option>
+                <option value="custom">Custom...</option>
               </select>
+              <div id="custom-duration-container" class="hidden mt-2">
+                <input id="focus-custom-duration" type="number" min="1" max="480" placeholder="Minutes" class="w-full bg-white/50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 font-medium placeholder:text-slate-400">
+              </div>
             </div>
             <div>
               <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-2">Daily target</label>
@@ -466,8 +526,11 @@
         </button>
       </div>
 
-      <div id="focus-timer-card" class="glass-panel shadow-premium dark:shadow-premium-dark rounded-3xl p-8 mb-6 text-center" style="display:none;">
-        <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-6 flex items-center justify-center gap-2">
+      <div id="focus-timer-card" class="glass-panel shadow-premium dark:shadow-premium-dark rounded-3xl p-8 mb-6 text-center relative" style="display:none;">
+        <button id="zen-toggle-btn" onclick="toggleZenMode()" class="absolute top-5 right-5 text-slate-400 hover:text-brand-500 transition-colors flex items-center justify-center w-8 h-8 rounded-full border border-slate-200/20 dark:border-slate-700/50 bg-slate-100/40 dark:bg-slate-900/60 shadow-sm" title="Toggle Zen Mode">
+          <i data-lucide="maximize" class="w-4 h-4"></i>
+        </button>
+        <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-6 flex items-center justify-center gap-2 mt-2">
           <i data-lucide="timer" class="w-3.5 h-3.5 text-brand-500 animate-pulse"></i> Space Session Active
         </h3>
         <div class="w-48 h-48 mx-auto rounded-full border border-brand-100 dark:border-slate-800 relative flex flex-col items-center justify-center mb-8 shadow-inner bg-slate-50/50 dark:bg-slate-950/40">
@@ -478,6 +541,26 @@
           <button id="timer-pause-btn" onclick="toggleFocus()" class="flex-1 bg-slate-900 dark:bg-brand-600 text-white font-semibold py-3.5 rounded-xl shadow-sm transform active:scale-95 transition-all">Pause</button>
           <button onclick="stopFocus()" class="flex-1 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold py-3.5 rounded-xl border border-slate-200 dark:border-slate-800 transform active:scale-95 transition-all">Discard</button>
         </div>
+      </div>
+
+      <!-- Habit Stacking Post-Session Card -->
+      <div id="habit-stack-card" class="glass-panel shadow-premium dark:shadow-premium-dark rounded-3xl p-8 mb-6 text-center" style="display:none;">
+        <h3 class="text-xs font-bold uppercase tracking-widest text-brand-500 mb-4 flex items-center justify-center gap-2">
+          <i data-lucide="check-square" class="w-4 h-4"></i> Habit Stacking
+        </h3>
+        <p class="text-sm font-medium text-slate-600 dark:text-slate-300 mb-6">Great focus! Stack a quick habit to keep the momentum going.</p>
+        <div class="flex flex-col gap-3 text-left max-w-[200px] mx-auto mb-8">
+           <label class="flex items-center gap-3 text-xs font-bold text-slate-700 dark:text-slate-300 cursor-pointer">
+             <input type="checkbox" class="accent-brand-500 w-4 h-4 rounded"> Drink a glass of water
+           </label>
+           <label class="flex items-center gap-3 text-xs font-bold text-slate-700 dark:text-slate-300 cursor-pointer">
+             <input type="checkbox" class="accent-brand-500 w-4 h-4 rounded"> Stretch for 1 minute
+           </label>
+           <label class="flex items-center gap-3 text-xs font-bold text-slate-700 dark:text-slate-300 cursor-pointer">
+             <input type="checkbox" class="accent-brand-500 w-4 h-4 rounded"> Rest your eyes
+           </label>
+        </div>
+        <button onclick="finishFocusStack()" class="w-full bg-slate-900 dark:bg-brand-600 text-white font-semibold py-3.5 rounded-xl shadow-md transform active:scale-95 transition-all">Complete Session</button>
       </div>
 
       <div class="glass-panel shadow-premium dark:shadow-premium-dark rounded-3xl p-6">
@@ -491,7 +574,6 @@
       </div>
     </div>
 
-    <!-- TAB: REPORT/STATS -->
     <div class="section" id="tab-report">
       <div class="glass-panel shadow-premium dark:shadow-premium-dark rounded-3xl p-6 mb-6">
         <div class="flex items-center justify-between mb-4">
@@ -517,10 +599,10 @@
           </div>
         </div>
         
-        <div class="relative h-48 mb-6 mx-auto w-full">
-          <canvas id="moodChart"></canvas>
+        <div class="relative h-56 mb-4 mx-auto w-full flex items-center justify-center">
+          <canvas id="moodChart" class="max-w-[210px] max-h-[210px]"></canvas>
         </div>
-        <div id="chart-legend" class="flex flex-wrap justify-center gap-4 text-[10px] font-bold uppercase tracking-wider text-slate-500"></div>
+        <div id="chart-legend" class="flex flex-wrap justify-center gap-4 text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-6"></div>
         
         <div id="insight" class="mt-6 p-4 bg-slate-50/80 dark:bg-slate-900/40 rounded-2xl text-xs text-slate-600 dark:text-slate-300 italic border border-slate-100 dark:border-slate-800 leading-relaxed text-center font-medium">
           Log a few feelings to generate weekly reports.
@@ -542,7 +624,6 @@
       </div>
     </div>
 
-    <!-- TAB: CALENDAR -->
     <div class="section" id="tab-calendar">
       <div class="glass-panel shadow-premium dark:shadow-premium-dark rounded-3xl p-6">
         <div class="flex items-center justify-between mb-6">
@@ -563,11 +644,11 @@
           <span class="flex items-center gap-1.5"><div class="w-2 h-2 rounded-full bg-slate-400"></div> Neutral</span>
           <span class="flex items-center gap-1.5"><div class="w-2 h-2 rounded-full bg-orange-400"></div> Hard</span>
           <span class="flex items-center gap-1.5"><div class="w-2 h-2 rounded-full bg-rose-500"></div> Stressed</span>
+          <span class="flex items-center gap-1.5"><div class="w-2 h-2 rounded-full bg-cyan-400"></div> Reminder</span>
         </div>
       </div>
     </div>
 
-    <!-- TAB: PROFILE -->
     <div class="section" id="tab-profile">
       <div class="glass-panel shadow-premium dark:shadow-premium-dark rounded-3xl p-6">
         <div class="text-center mb-8 relative">
@@ -623,6 +704,19 @@
           </div>
         </div>
 
+        <div class="mb-8">
+          <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Data Management</h3>
+          <div class="flex gap-2">
+            <button onclick="exportData()" class="flex-1 bg-white/50 dark:bg-slate-800/40 text-slate-700 dark:text-brand-400 font-semibold py-2.5 rounded-xl border border-slate-200 dark:border-brand-900/50 hover:bg-white dark:hover:bg-slate-800 transition-all text-xs flex items-center justify-center gap-2">
+              <i data-lucide="download" class="w-3.5 h-3.5"></i> Backup Data
+            </button>
+            <label class="flex-1 bg-white/50 dark:bg-slate-800/40 text-slate-700 dark:text-brand-400 font-semibold py-2.5 rounded-xl border border-slate-200 dark:border-brand-900/50 hover:bg-white dark:hover:bg-slate-800 transition-all text-xs flex items-center justify-center gap-2 cursor-pointer">
+              <i data-lucide="upload" class="w-3.5 h-3.5"></i> Restore Data
+              <input type="file" id="import-file" accept=".json" class="hidden" onchange="importData(event)">
+            </label>
+          </div>
+        </div>
+
         <button onclick="resetAll()" class="w-full bg-rose-50/50 dark:bg-rose-950/20 text-rose-600 dark:text-rose-400 font-semibold py-3.5 rounded-xl border border-rose-200/40 dark:border-rose-900/20 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors text-xs">
           Completely Reset Mind Vault
         </button>
@@ -668,14 +762,13 @@
 
 </div>
 
-<!-- DETAILED DIALOG / MODAL (Smooth scale transition) -->
 <div class="fixed inset-0 bg-slate-900/20 dark:bg-black/60 backdrop-blur-sm z-[110] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300" id="cal-modal" onclick="closeCalModal(event)">
-  <div class="glass-panel w-full max-w-sm rounded-[2rem] p-6 shadow-2xl transform scale-95 transition-transform duration-300 border border-white/60 dark:border-white/5" id="cal-modal-card">
-    <div class="flex justify-between items-center mb-6 border-b border-slate-100 dark:border-slate-800 pb-3">
-      <h3 class="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest" id="modal-date-title">Date Information</h3>
+  <div class="glass-panel w-full max-w-sm rounded-[2rem] p-6 shadow-2xl transform scale-95 transition-transform duration-300 border border-white/60 dark:border-white/5 flex flex-col max-h-[85vh]" id="cal-modal-card">
+    <div class="flex justify-between items-center mb-6 border-b border-slate-100 dark:border-slate-800 pb-3 shrink-0">
+      <h3 class="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest" id="modal-date-title">DATE INFORMATION</h3>
       <button onclick="closeCalModal()" class="w-8 h-8 rounded-full bg-slate-100/80 dark:bg-slate-800 flex items-center justify-center text-slate-400 hover:text-slate-600 transition"><i data-lucide="x" class="w-4 h-4"></i></button>
     </div>
-    <div id="modal-body" class="max-h-[50vh] overflow-y-auto pr-1"></div>
+    <div id="modal-body" class="overflow-y-auto pr-1 pb-2 flex-1 scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-800"></div>
   </div>
 </div>
 
@@ -747,9 +840,6 @@ let _a2hsDeferredPrompt = null;
       a2hsBtn.style.background = 'linear-gradient(135deg,#f59e0b,#d97706)';
       a2hsBtn.onclick = () => alert('Please open this page in Safari (not Chrome) to add it to your home screen.');
     }
-    // For non-iOS, non-Android (e.g. desktop Firefox) the button stays visible;
-    // triggerA2HS() handles the no-prompt case gracefully.
-
   } catch(e) { console.warn('PWA init error', e); }
 })();
 
@@ -834,14 +924,253 @@ const POSITIVE_MOODS  = ['happy','excited','calm','grateful'];
 const DIFFICULT_MOODS = ['depressed','anxious','stressed','overwhelmed','frustrated','lonely'];
 
 const suggestions = {
- depressed: ['Sit by a window and absorb light for 5 minutes.','Write down one things you managed to complete today.','Listen to a highly soothing acoustic track.','Drink warm tea/water slowly.'],
-  stressed: ['Breathe with long exhales — in for 4, out for 6.','Step away from social feeds completely for 1 hour.','Stretch your neck & shoulders.','Wash your face or wrists in cool water.'],
-  anxious: ['Perform 5-4-3-2-1 grounding technique.','Press feet firmly against the floor.','Focus completely on your body\'s contact with the chair.'],
-  overwhelmed: ['Pick exactly one very tiny thing to solve.','Clear your immediate screen clutter or desk.','Close your eyes for 60 seconds.'],
-  frustrated: ['Exhale deeply, emptying all air in your lungs.','Do physical stretches or step outdoors for a minute.'],
-  lonely: ['Pen down a journal note for yourself.','Watch a deeply comforting classic film or animation.'],
-  tired: ['Close your screen right now and rest.','Sip a fresh glass of water.','Unclench your jaw and shoulders.'],
-  _default: ['Take 3 intentional deep breaths.','Refresh yourself with a tall glass of clean water.','Look at the horizon out of the window.']
+  depressed: [
+    'Get out of bed and sit by a window for 5 minutes.',
+    'Take a slow walk, even if it is only around your room.',
+    'Drink a glass of water and take three deep breaths.',
+    'Listen to one song that usually comforts you.',
+    'Text one person a simple "Hi".',
+    'Take a shower or wash your face gently.',
+    'Write down one thing you survived today.',
+    'Open the curtains and let some light in.',
+    'Eat something nourishing, even a small snack.',
+    'Remind yourself: difficult feelings can change with time.',
+    'Do one tiny task, then stop if you need to.',
+    'Be kind to yourself today — getting through the day counts.',
+    'Wear your favorite comfortable clothes.',
+    'Sit in sunlight for 10 minutes.',
+    'Look through photos of a happy memory.',
+    'Watch a comforting movie scene.',
+    'Water a plant or spend a minute with nature.',
+    'Write down one thing you are grateful for.',
+    'Make your bed, even if it is not perfect.',
+    'Listen to the sounds around you for one minute.',
+    'Write a kind note to your future self.',
+    'Give yourself credit for showing up today.',
+    'Light a candle or use a scent you enjoy.',
+    'Try a gentle stretch while seated.',
+    'Remember: you do not need to solve everything today.'
+  ],
+
+  stressed: [
+    'Take 5 slow deep breaths — in for 4, out for 6.',
+    'Step outside for 5 minutes of fresh air.',
+    'Write down what is weighing on you.',
+    'Stretch your neck and shoulders gently.',
+    'Put on one calm song and just listen.',
+    'Give yourself permission to pause for 5 minutes.',
+    'Make a cup of tea or your favorite drink.',
+    'Spend 2 minutes focusing only on your breathing.',
+    'Look outside and notice five things around you.',
+    'Slowly unclench your jaw and relax your shoulders.',
+    'Take a short break from notifications.',
+    'Close unnecessary tabs on your device.',
+    'Write a simple 3-item to-do list.',
+    'Organize one small space around you.',
+    'Take a short walk without your phone.',
+    'Listen to nature sounds for 3 minutes.',
+    'Stretch your fingers and wrists.',
+    'Focus only on the next task.',
+    'Remind yourself that not everything needs solving today.',
+    'Take three deep breaths before checking messages.',
+    'Watch clouds or trees move in the wind.',
+    'Set a timer for a 5-minute reset break.',
+    'Take a sip of water slowly and mindfully.',
+    'Write down one thing that can wait until tomorrow.',
+    'Give your mind permission to rest.'
+  ],
+
+  anxious: [
+    'Try the 5-4-3-2-1 grounding exercise.',
+    'Place both feet flat on the floor and take 3 slow breaths.',
+    'Write your worry down, then one thing you can control.',
+    'Splash cold water on your face.',
+    'Reach out to one person you trust.',
+    'Breathe: in for 4, hold for 4, out for 6.',
+    'Name 3 things you can hear right now.',
+    'Hold something cold and focus on its texture.',
+    'Remind yourself that thoughts are not always facts.',
+    'Take one slow breath and count to 10.',
+    'Focus only on the next 10 minutes.',
+    'Speak to someone you trust.',
+    'Count five blue objects around you.',
+    'Describe your surroundings out loud.',
+    'Press your feet firmly into the floor.',
+    'Trace your hand slowly with a finger.',
+    'Repeat: "I am safe right now."',
+    'Focus on one object and notice every detail.',
+    'Imagine placing your worries into a box for later.',
+    'Remind yourself that anxiety is not danger.',
+    'Look around and identify three safe things.',
+    'Listen carefully to sounds near and far.',
+    'Take a slow sip of water and focus on the sensation.',
+    'Relax your shoulders one at a time.',
+    'Tell yourself: "This feeling will pass."'
+  ],
+
+  overwhelmed: [
+    'Pick just ONE thing to do next.',
+    'Take a 10-minute break and set a timer.',
+    'Write down everything in your head.',
+    'Step away from screens for 5 minutes.',
+    'Drink a full glass of water.',
+    'Remind yourself: you do not have to do everything today.',
+    'Choose the easiest task first.',
+    'Clear one small area of your workspace.',
+    'Write a simple to-do list with only 3 items.',
+    'Set a timer for 5 minutes and start.',
+    'Give yourself permission to leave tasks for tomorrow.',
+    'Delete one unnecessary task.',
+    'Close extra browser tabs.',
+    'Ask yourself what truly needs attention today.',
+    'Move one task to another day intentionally.',
+    'Focus on progress, not perfection.',
+    'Turn off notifications for 15 minutes.',
+    'Do one task from start to finish.',
+    'Break a big task into three tiny steps.',
+    'Write down your top priority.',
+    'Take a few deep breaths before continuing.',
+    'Clear your desk of three items.',
+    'Start with the simplest thing possible.',
+    'Pause and stretch for one minute.',
+    'Remember: one step is enough right now.'
+  ],
+
+  frustrated: [
+    'Take 3 big exhales longer than your inhale.',
+    'Go for a short walk.',
+    'Write down what frustrated you.',
+    'Splash cold water on your face and wrists.',
+    'Listen to a song that matches your mood.',
+    'Squeeze a pillow tightly for 10 seconds.',
+    'Stretch your arms above your head.',
+    'Step away from the problem for 10 minutes.',
+    'Shake out tension from your hands.',
+    'Do 20 seconds of fast movement.',
+    'Ask yourself if this will matter next week.',
+    'Write an uncensored rant and delete it.',
+    'Change your environment for a few minutes.',
+    'Take a deep breath before responding.',
+    'Listen to energetic music, then calmer music.',
+    'Focus on what you can control.',
+    'Relax your jaw and shoulders.',
+    'Drink a glass of cold water.',
+    'Look outside for a minute.',
+    'Give yourself permission to feel annoyed.',
+    'Count backwards from 20 slowly.',
+    'Take a break from the situation.',
+    'Stretch your neck gently.',
+    'Remind yourself that mistakes happen.',
+    'Let yourself cool down before acting.'
+  ],
+
+  lonely: [
+    'Reach out to one person.',
+    'Do something kind for yourself.',
+    'Step outside briefly.',
+    'Write about what connection means today.',
+    'Remember this feeling is temporary.',
+    'Watch a comforting movie or video.',
+    'Call a family member or friend.',
+    'Spend time with a pet if possible.',
+    'Join an online community you enjoy.',
+    'Write a letter to your future self.',
+    'Send a meme to someone.',
+    'Look through old happy messages.',
+    'Listen to a podcast with friendly voices.',
+    'Visit a public place like a park.',
+    'Smile at someone today.',
+    'Make plans for a future meetup.',
+    'Write about someone you appreciate.',
+    'Read stories from people you relate to.',
+    'Share one thought online.',
+    'Remind yourself that connection can start small.',
+    'Look through photos of loved ones.',
+    'Practice a hobby you enjoy.',
+    'Spend a few minutes around other people.',
+    'Write down a happy memory with someone.',
+    'Remember that you matter to others.'
+  ],
+
+  tired: [
+    'Rest your eyes for 60 seconds.',
+    'Drink a full glass of water.',
+    'Protect your sleep time tonight.',
+    'Give yourself permission to do less today.',
+    'Take a 10-minute rest without guilt.',
+    'Stand up and stretch for 2 minutes.',
+    'Rest your eyes away from screens.',
+    'Take a short power nap if possible.',
+    'Have a healthy snack.',
+    'Slow down and focus on one task.',
+    'Step into natural sunlight.',
+    'Wash your face with cool water.',
+    'Check if you need food, water, or sleep.',
+    'Take a few deep breaths.',
+    'Reduce screen brightness.',
+    'Listen to calming music.',
+    'Sit quietly for a few minutes.',
+    'Avoid multitasking for the next hour.',
+    'Do one important task, then rest.',
+    'Remember that rest is productive too.',
+    'Stretch your legs for a minute.',
+    'Roll your shoulders slowly.',
+    'Take a short break from screens.',
+    'Close your eyes and relax your muscles.',
+    'Be gentle with yourself today.'
+  ],
+
+  _default: [
+    'Take 5 slow deep breaths.',
+    'Drink a full glass of water.',
+    'Step outside for 5 minutes.',
+    'Listen to a calming song.',
+    'Stretch gently.',
+    'Write down one positive thing today.',
+    'Rest your eyes for 60 seconds.',
+    'Take a short break from screens.',
+    'Splash cool water on your face.',
+    'Open a window and take three deep breaths.',
+    'Look around and notice five things you appreciate.',
+    'Sit quietly for one minute without distractions.',
+    'Stand up and stretch your whole body.',
+    'Take a short walk around your room.',
+    'Smile, even if you do not feel like it.',
+    'Listen to the sounds around you for 30 seconds.',
+    'Write down one thing you are looking forward to.',
+    'Check in with yourself: "What do I need right now?"',
+    'Watch the sky for a minute.',
+    'Relax your shoulders and unclench your jaw.',
+    'Take a moment to appreciate how far you have come.',
+    'Clean one small area around you.',
+    'Light a candle or enjoy a pleasant scent.',
+    'Read a page from a book you enjoy.',
+    'Write one encouraging sentence to yourself.',
+    'Take a break from notifications for 15 minutes.',
+    'Look at a photo that makes you smile.',
+    'Sit near natural light for a few minutes.',
+    'Listen to your favorite song from start to finish.',
+    'Take three slow breaths before your next task.',
+    'Do one small thing that future you will appreciate.',
+    'Drink a warm beverage slowly and mindfully.',
+    'Focus on what is within your control today.',
+    'Think of one thing you learned recently.',
+    'Write down a small win from today.',
+    'Take a moment to notice your breathing.',
+    'Gently stretch your hands, fingers, and wrists.',
+    'Look away from screens for two minutes.',
+    'Remind yourself: you do not have to have everything figured out.',
+    'Do one act of kindness for yourself.',
+    'Take a moment to enjoy silence.',
+    'Write down one goal for the next hour.',
+    'Stand barefoot on the floor and feel grounded.',
+    'Notice three things that make today a little better.',
+    'Take a deep breath and start again.',
+    'Let yourself rest without feeling guilty.',
+    'Pause and appreciate the present moment.',
+    'Remember: small steps still count.',
+    'Remind yourself that this moment will pass.'
+  ]
 };
 
 const patterns = {
@@ -880,11 +1209,13 @@ let breatheCycles    = 0;
 let focusTimer       = null;
 let focusRunning     = false;
 let focusSeconds     = 0;
+let focusEndTime     = 0; // State flag matching background phone sleep protection tracking loops
 let focusTopic       = '';
 
 // ─── Init entry ───────────────────────────────────────────────
 function init() {
   applyTheme();
+  applyDynamicTheme();
   if (profile) {
     showMainApp();
   } else {
@@ -894,7 +1225,7 @@ function init() {
   }
 }
 
-// ─── Theme Toggles ───────────────────────────────────────────
+// ─── Theme & Zen Toggles ─────────────────────────────────────
 function applyTheme() {
   document.documentElement.classList.toggle('dark', darkMode);
   const btn = document.getElementById('theme-toggle');
@@ -904,10 +1235,46 @@ function applyTheme() {
   }
 }
 
+// ─── Toggle Visibility of Custom focus input ─────────────────
+function toggleCustomDurationInput() {
+  const dropdown = document.getElementById('focus-duration');
+  const customContainer = document.getElementById('custom-duration-container');
+  if (dropdown.value === 'custom') {
+    customContainer.classList.remove('hidden');
+  } else {
+    customContainer.classList.add('hidden');
+  }
+}
+
 function toggleTheme() {
   darkMode = !darkMode;
   localStorage.setItem('ssms7_dark', darkMode ? '1' : '0');
   applyTheme();
+}
+
+function applyDynamicTheme() {
+  document.body.classList.remove('theme-ocean', 'theme-amber');
+  if (entries.length === 0) return;
+  const lastMood = entries[entries.length - 1].mood;
+  const oceanMoods = ['stressed', 'anxious', 'frustrated', 'overwhelmed'];
+  const amberMoods = ['happy', 'excited', 'grateful'];
+
+  if (oceanMoods.includes(lastMood)) {
+      document.body.classList.add('theme-ocean');
+  } else if (amberMoods.includes(lastMood)) {
+      document.body.classList.add('theme-amber');
+  }
+}
+
+function toggleZenMode() {
+  document.body.classList.toggle('zen-active');
+  const btn = document.getElementById('zen-toggle-btn');
+  if(document.body.classList.contains('zen-active')) {
+     btn.innerHTML = '<i data-lucide="x" class="w-4.5 h-4.5 text-slate-400"></i>';
+  } else {
+     btn.innerHTML = '<i data-lucide="maximize" class="w-4.5 h-4.5"></i>';
+  }
+  lucide.createIcons();
 }
 
 // ─── Onboarding setups ────────────────────────────────────────
@@ -1098,6 +1465,8 @@ function logMood(silent = false) {
   const note = document.getElementById('note').value.trim();
   entries.push({ mood: currentMood, note, ts: Date.now(), hour: new Date().getHours() });
   try { localStorage.setItem('ssms7_e', JSON.stringify(entries)); } catch(e) {}
+  
+  applyDynamicTheme();
   updateStreaks();
   renderHistory();
 
@@ -1163,6 +1532,7 @@ function completeSugg(el) {
   }
 }
 
+// ─── Utility Array Helpers ───
 function pickN(arr, n) { return [...arr].sort(() => Math.random() - 0.5).slice(0, n); }
 function showFeedback(html) { document.getElementById('feedback').innerHTML = html; }
 
@@ -1175,7 +1545,7 @@ function renderHistory() {
   }
   
   listWrapper.innerHTML = [...entries].reverse().slice(0, 8).map(e => {
-    const details = moodInfo[e.mood] || { emoji: '💭', label: 'Logged', cat: 'neutral' };
+    const details = e.mood === 'journal' ? { emoji: '📖', label: 'Journal Entry', cat: 'neutral' } : (moodInfo[e.mood] || { emoji: '💭', label: 'Logged', cat: 'neutral' });
     return `<div class="flex items-start gap-3 py-3 border-b border-slate-100 dark:border-slate-800 last:border-0">
       <div class="text-2xl pt-1">${details.emoji}</div>
       <div class="flex-1">
@@ -1305,12 +1675,24 @@ function runPhase() {
   tick();
 }
 
-// ─── Focus Workspace Timer ───────────────────────────────────
+// ─── Focus Workspace Timer (With Screen-Off Real Timestamp Protection) ───
 function startFocus() {
   const topic = document.getElementById('focus-topic').value.trim() || 'Zen Space';
-  const mins  = parseInt(document.getElementById('focus-duration').value);
+  const dropdown = document.getElementById('focus-duration');
+  let mins = parseInt(dropdown.value);
+  
+  if (dropdown.value === 'custom') {
+    const customInput = document.getElementById('focus-custom-duration');
+    mins = parseInt(customInput.value);
+    if (!mins || mins <= 0) {
+      alert("Please enter a valid amount of minutes for your focus workspace.");
+      return;
+    }
+  }
+
   focusTopic   = topic;
   focusSeconds = mins * 60;
+  focusEndTime = Date.now() + (focusSeconds * 1000);
   
   document.getElementById('focus-timer-card').style.display = 'block';
   document.getElementById('timer-topic-display').textContent = topic;
@@ -1318,12 +1700,14 @@ function startFocus() {
   
   updateTimerDisplay();
   focusRunning = true;
-  focusTimer   = setInterval(tickFocus, 1000);
+  focusTimer   = setInterval(tickFocus, 250); // Frequent poll check safeguards delta drops
 }
 
 function tickFocus() {
   if (!focusRunning) return;
-  focusSeconds--;
+  const remainingMs = focusEndTime - Date.now();
+  focusSeconds = Math.max(0, Math.ceil(remainingMs / 1000));
+  
   updateTimerDisplay();
   if (focusSeconds <= 0) { 
     clearInterval(focusTimer); 
@@ -1339,25 +1723,50 @@ function updateTimerDisplay() {
 
 function toggleFocus() {
   focusRunning = !focusRunning;
-  document.getElementById('timer-pause-btn').textContent = focusRunning ? 'Pause' : 'Resume';
+  const btn = document.getElementById('timer-pause-btn');
+  if (focusRunning) {
+      btn.textContent = 'Pause';
+      focusEndTime = Date.now() + (focusSeconds * 1000); // Recalculate end timestamp relative to dynamic delta offset
+  } else {
+      btn.textContent = 'Resume';
+  }
 }
 
 function stopFocus() {
   clearInterval(focusTimer);
-  const elapsed = parseInt(document.getElementById('focus-duration').value) * 60 - focusSeconds;
+  const dropdown = document.getElementById('focus-duration');
+  const configuredMins = dropdown.value === 'custom' ? parseInt(document.getElementById('focus-custom-duration').value) : parseInt(dropdown.value);
+  const elapsed = configuredMins * 60 - focusSeconds;
   if (elapsed > 60) saveFocusSession(Math.floor(elapsed / 60), false);
   document.getElementById('focus-timer-card').style.display = 'none';
   document.getElementById('focus-start-btn').closest('.glass-panel').style.display = 'block';
   focusRunning = false;
+  if (document.body.classList.contains('zen-active')) toggleZenMode();
   renderFocusSessions();
 }
 
 function completeFocus() {
   clearInterval(focusTimer);
-  const mins = parseInt(document.getElementById('focus-duration').value);
-  saveFocusSession(mins, true);
+  focusRunning = false;
   document.getElementById('focus-timer-card').style.display = 'none';
+  document.getElementById('habit-stack-card').style.display = 'block';
+  
+  if (document.body.classList.contains('zen-active')) {
+      toggleZenMode();
+  }
+}
+
+function finishFocusStack() {
+  const dropdown = document.getElementById('focus-duration');
+  const mins = dropdown.value === 'custom' ? parseInt(document.getElementById('focus-custom-duration').value) : parseInt(dropdown.value);
+  saveFocusSession(mins, true);
+  
+  document.getElementById('habit-stack-card').style.display = 'none';
   document.getElementById('focus-start-btn').closest('.glass-panel').style.display = 'block';
+  
+  // Uncheck all boxes
+  document.querySelectorAll('#habit-stack-card input[type="checkbox"]').forEach(cb => cb.checked = false);
+  
   renderFocusSessions();
   updateStreaks();
 }
@@ -1385,11 +1794,11 @@ function renderFocusSessions() {
   const goal = parseInt(document.getElementById('focus-goal').value);
   const done = todaysSessions.filter(s => s.completed).length;
   document.getElementById('focus-goal-progress').innerHTML = done >= goal ? '<i data-lucide="check" class="w-3 h-3 inline"></i> Target met' : `${done}/${goal} completed`;
+  
   lucide.createIcons();
 }
 
-// ─── Local Analytics & AI Companion Logic (Completely Offline) ───
-
+// ─── Local Analytics Insight Box Generator ───
 function generateWeeklyInsight() {
   const insightEl = document.getElementById('insight');
   insightEl.innerHTML = '<span class="animate-pulse flex justify-center gap-2 text-brand-600 dark:text-brand-400 font-bold">✨ Lumi is analyzing your week...</span>';
@@ -1408,7 +1817,7 @@ function generateWeeklyInsight() {
     if (week.length === 0) {
       insightText = "To unlock weekly patterns and emotional analysis, log a couple of feelings during your checked-in journey.";
     } else if (cats.difficult >= 3) {
-      insightText = "Lumi notices you've been holding some complicated pressures this week. Give yourself permission to pause, breathe, and slow down today.";
+      insightText = "You've been holding complex weights lately. Unclench, pause, and remember your limits represent security, not weakness 💙";
     } else if (cats.tired >= 3) {
       insightText = "A high ratio of rest and fatigue indicators has loaded onto your dashboard. Let your screens rest and honor a recovery cycle tonight.";
     } else if (cats.positive >= (cats.difficult + cats.tired)) {
@@ -1417,7 +1826,7 @@ function generateWeeklyInsight() {
       insightText = "Every passing feeling is just a transient cloud. Your practice is showing beautiful presence with whatever emotional landscapes occur.";
     }
 
-    insightEl.textContent = "✨ " + insightText;
+    insightEl.textContent = insightText;
   }, 700);
 }
 
@@ -1427,7 +1836,7 @@ function initLumiChat() {
     const compName = profile?.name || 'Friend';
     lumiMessages.push({
       sender: 'lumi',
-      text: `Hi **${compName}**, I am **Lumi**, your personal companion here in Mind Vault. 🌸\n\nI am here to listen if you need to talk, vent, or find a little clarity. How are you feeling today?`,
+      text: `Hey **${compName}**! 👋 I'm **Lumi**. Think of me as your personal sounding board and friend in this space.\n\nI can read your logs, chat about whatever is on your mind, and help you find a little calm when things get overwhelming. You can log how you're feeling on the main tab, or just tap **✨ Analyze My Log** below and we can talk about it!`,
       ts: Date.now()
     });
     localStorage.setItem('ssms7_lumi', JSON.stringify(lumiMessages));
@@ -1478,515 +1887,39 @@ function parseMiniMarkdown(t) {
   return t.replace(/\*\*(.*?)\*\*/g, '<strong class="font-extrabold text-brand-600 dark:text-brand-400">$1</strong>');
 }
 
-function handleLumiKey(event) {
-  if (event.key === 'Enter') {
-    triggerLumiMessage();
-  }
+// ─── Save and Export Local Data Functions ────────────────────
+function exportData() {
+  const exportObj = {
+    profile: JSON.parse(localStorage.getItem('ssms7_p')),
+    entries: JSON.parse(localStorage.getItem('ssms7_e')),
+    focus: JSON.parse(localStorage.getItem('ssms7_focus')),
+    lumi: JSON.parse(localStorage.getItem('ssms7_lumi'))
+  };
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObj));
+  const dlAnchorElem = document.createElement('a');
+  dlAnchorElem.setAttribute("href", dataStr);
+  dlAnchorElem.setAttribute("download", `mind-vault-backup-${new Date().toISOString().split('T')[0]}.json`);
+  dlAnchorElem.click();
 }
 
-function sendQuickPrompt(promptText) {
-  triggerLumiMessage(promptText);
-}
-
-function getLumiContext() {
-  if (!entries.length) {
-    return "- No mood entries have been logged yet.";
-  }
-  const lastEntry = entries[entries.length - 1];
-  const lastMoodLabel = moodInfo[lastEntry.mood]?.label || lastEntry.mood;
-  const lastMoodEmoji = moodInfo[lastEntry.mood]?.emoji || '💭';
-  const lastNote = lastEntry.note ? lastEntry.note : "None";
-  const streak = calcStreak();
-  
-  const now = Date.now();
-  const lastWeek = entries.filter(e => now - e.ts < 7 * 86400000);
-  const counts = { positive: 0, neutral: 0, difficult: 0, tired: 0 };
-  lastWeek.forEach(e => {
-    const cat = moodInfo[e.mood]?.cat || 'neutral';
-    counts[cat] = (counts[cat] || 0) + 1;
-  });
-
-  const todayStr = new Date().toDateString();
-  const focusToday = focusSessions.filter(s => s.date === todayStr && s.completed);
-  const totalFocusMins = focusToday.reduce((acc, curr) => acc + curr.mins, 0);
-
-  return `- Last Feeling Logged: ${lastMoodLabel} ${lastMoodEmoji} (Comment: "${lastNote}")
-- Total Mood Records: ${entries.length} checks in total.
-- Weekly Emotion Distribution: ${counts.positive} Positive, ${counts.neutral} Neutral, ${counts.difficult} Difficult, ${counts.tired} Tired.
-- Day Streak: ${streak} days.
-- Focus Accomplished Today: ${focusToday.length} sessions completed (${totalFocusMins} minutes focus).`;
-}
-
-function confirmAiLogMood(index) {
-  const msg = lumiMessages[index];
-  if (!msg || !msg.suggestedMood || msg.moodLogged) return;
-
-  currentMood = msg.suggestedMood;
-  document.getElementById('note').value = msg.suggestedNote || '';
-  logMood(true); // Silent log
-
-  // Update UI state
-  msg.moodLogged = true;
-  localStorage.setItem('ssms7_lumi', JSON.stringify(lumiMessages));
-  renderLumiMessages();
-}
-
-async function triggerLumiMessage(customText = null) {
-  const inputEl = document.getElementById('lumi-user-input');
-  const text = (customText || inputEl.value).trim();
-  if (!text) return;
-  
-  if (!customText) {
-    inputEl.value = '';
-  }
-  
-  // Add User Message
-  lumiMessages.push({ sender: 'user', text: text, ts: Date.now() });
-  localStorage.setItem('ssms7_lumi', JSON.stringify(lumiMessages));
-  renderLumiMessages();
-  
-  // Active Typing Loader
-  const typingEl = document.getElementById('lumi-typing');
-  typingEl.classList.remove('hidden');
-  typingEl.classList.add('flex');
-
-  let responseText;
-
-  const aiConfigured = !LUMI_WORKER_URL.includes('YOUR-WORKER-NAME');
-
-  if (aiConfigured) {
-    // ── Real AI mode (via Cloudflare Worker proxy) ──────────────
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
     try {
-      responseText = await fetchLumiAIResponse(text);
-    } catch (err) {
-      console.warn('Lumi AI request failed, using offline reply:', err);
-      responseText = getLumiFallbackResponse(text);
+      const imported = JSON.parse(e.target.result);
+      if (imported.profile) localStorage.setItem('ssms7_p', JSON.stringify(imported.profile));
+      if (imported.entries) localStorage.setItem('ssms7_e', JSON.stringify(imported.entries));
+      if (imported.focus) localStorage.setItem('ssms7_focus', JSON.stringify(imported.focus));
+      if (imported.lumi) localStorage.setItem('ssms7_lumi', JSON.stringify(imported.lumi));
+      alert("Data successfully restored! Reloading app...");
+      location.reload();
+    } catch (error) {
+      alert("Error parsing backup file. Please ensure it is a valid Mind Vault JSON file.");
     }
-  } else {
-    // ── Offline fallback mode (Worker not configured yet) ───────
-    await new Promise(r => setTimeout(r, 800));
-    responseText = getLumiFallbackResponse(text);
-  }
-
-  let suggestedMood = null;
-  let suggestedNote = null;
-
-  // Process secret log tags (works for both AI and offline replies)
-  const moodMatch = responseText.match(/\[LOG_MOOD:\s*([a-z]+)\]/i);
-  if (moodMatch) {
-      const isMotivationRequest = text.toLowerCase().includes('motivation');
-      
-      if (!isMotivationRequest) {
-          const detectedMood = moodMatch[1].toLowerCase();
-          if (moodInfo[detectedMood]) {
-              suggestedMood = detectedMood;
-              suggestedNote = text;
-          }
-      }
-      responseText = responseText.replace(/\[LOG_MOOD:\s*[a-z]+\]/i, '').trim();
-  }
-
-  typingEl.classList.add('hidden');
-  typingEl.classList.remove('flex');
-  
-  // Add Lumi Response
-  let aiMsg = { sender: 'lumi', text: responseText, ts: Date.now() };
-  if (suggestedMood) {
-      aiMsg.suggestedMood = suggestedMood;
-      aiMsg.suggestedNote = suggestedNote;
-      aiMsg.moodLogged = false;
-  }
-
-  lumiMessages.push(aiMsg);
-  localStorage.setItem('ssms7_lumi', JSON.stringify(lumiMessages));
-  renderLumiMessages();
-}
-
-// ─── Real AI Integration (via Cloudflare Worker proxy → Gemini) ──
-// 1. Deploy the included worker.js to Cloudflare Workers (free tier).
-// 2. Set GEMINI_API_KEY as a secret on that Worker (never put it here).
-// 3. Replace the URL below with your deployed Worker's URL.
-const LUMI_WORKER_URL = 'https://lumi-proxy.prathikmothilal.workers.dev';
-
-async function fetchLumiAIResponse(latestUserText) {
-  const name = profile?.name || 'Friend';
-  const context = getLumiContext();
-
-  const systemPrompt = `You are Lumi, a warm, supportive, and gentle AI wellness companion living inside the "Mind Vault" mindfulness app. The user's name is ${name}.
-
-Speak in a caring, friendly, conversational tone, using **bold** sparingly for emphasis. Keep replies fairly short (2-5 sentences) unless the user asks for something detailed like an exercise or analysis. You are not a therapist and should gently suggest professional support for serious mental health concerns, but otherwise act as a kind, encouraging friend.
-
-ALWAYS maintain a positive, hopeful, and encouraging tone, even when discussing difficult topics. Validate the user's feelings first, then gently steer toward hope, perspective, or a small constructive next step. Weave in genuine motivation and encouragement whenever it feels natural, not just when explicitly asked.
-
-If the user asks who created you, who made you, who your developer/creator is, or anything similar, always answer that you were created by **Prathik Mothilal**. Keep it brief and warm, and don't over-explain.
-
-If the user asks for motivation, inspiration, or encouragement, share a short, real, well-known story about a famous person or real event who overcame failure or hardship before succeeding (e.g. figures like Abraham Lincoln, J.K. Rowling, Walt Disney, Oprah Winfrey, Michael Jordan, Thomas Edison, Sara Blakely, Colonel Sanders, etc., or other real historical/contemporary examples). Keep the story to 1-3 sentences, factually accurate and not exaggerated, then connect it to the user's situation with a brief, genuine, motivating message. Vary which person/story you reference across conversations rather than repeating the same one.
-
-Here is the user's current Mind Vault data, which you can refer to naturally if relevant:
-${context}
-
-If the user shares how they are currently feeling in a way that maps clearly to a mood (e.g. happy, sad, anxious, angry, calm, tired, excited, stressed), you may end your reply with a hidden tag on its own, e.g. [LOG_MOOD:happy]. Only do this when the user is clearly describing their own current emotional state, not when discussing other topics. Never mention this tag to the user.`;
-
-  // Build short rolling history (last 10 messages) for conversational context
-  const history = lumiMessages.slice(-10).map(m => ({
-    role: m.sender === 'lumi' ? 'model' : 'user',
-    parts: [{ text: m.text.replace(/\[LOG_MOOD:\s*[a-z]+\]/i, '').trim() }]
-  }));
-
-  const body = {
-    system_instruction: { parts: [{ text: systemPrompt }] },
-    contents: [...history, { role: 'user', parts: [{ text: latestUserText }] }],
-    generationConfig: { temperature: 0.8, maxOutputTokens: 400 }
   };
-
-  const res = await fetch(LUMI_WORKER_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
-  });
-
-  if (!res.ok) {
-    const errText = await res.text();
-    throw new Error(`Lumi proxy error ${res.status}: ${errText}`);
-  }
-
-
-  const data = await res.json();
-  const reply = data?.candidates?.[0]?.content?.parts?.map(p => p.text).join('') || '';
-  if (!reply) throw new Error('Empty response from Gemini');
-  return reply.trim();
-}
-
-// ─── Lumi Settings (AI API Key) ────────────────────────────────────
-function openLumiSettings() {
-  const aiConfigured = !LUMI_WORKER_URL.includes('YOUR-WORKER-NAME');
-  if (aiConfigured) {
-    alert('✨ Lumi is connected to AI and ready to chat!');
-  } else {
-    alert('Lumi is currently running in offline mode (using built-in responses).\n\nThe site owner can connect a real AI by deploying the included worker.js to Cloudflare Workers and setting LUMI_WORKER_URL in index.html.');
-  }
-}
-
-function getLumiFallbackResponse(text) {
-  const query = text.toLowerCase().trim();
-  const name = profile?.name || 'Friend';
-  const lastEntry = entries[entries.length - 1];
-  const lastMood = lastEntry ? lastEntry.mood : null;
-  const moodLabel = lastMood ? (moodInfo[lastMood]?.label || lastMood) : null;
-  const moodEmoji = lastMood ? (moodInfo[lastMood]?.emoji || '💭') : '';
-  const streak = calcStreak();
-
-  if (/^(hi|hello|hey|hey there|greetings|morning|evening|afternoon)/.test(query) || query.includes('hi lumi')) {
-    const greetings = [
-      `Hey there, **${name}**! It's so nice to see you. How is your day treating you so far?`,
-      `Hi **${name}**! I'm here and ready to listen. What's on your mind today?`,
-      `Hello! It's great to connect with you. How are you feeling right now?`
-    ];
-    return greetings[Math.floor(Math.random() * greetings.length)];
-  }
-  
-  if (query.includes('how are you') || query.includes('how are u') || query.includes('how\'s it going') || query.includes('hows it going')) {
-    const statuses = [
-      `I'm doing wonderfully, thank you for asking! I'm just here in the Mind Vault, ready to support you. How are you feeling?`,
-      `I'm great! Always happy to chat with you, **${name}**. What's up?`,
-      `Doing well and feeling peaceful. How is everything on your end?`
-    ];
-    return statuses[Math.floor(Math.random() * statuses.length)];
-  }
-  if (query.includes('what are you doing') || query.includes('what are u doing')) {
-    return `Just organizing some digital thoughts and enjoying the peaceful atmosphere here. What's on your mind today, **${name}**?`;
-  }
-  if (query.includes('who are you')) {
-    return `I'm Lumi, your personal AI companion! I'm here to listen, offer advice, or just chat whenever you need a friendly space.`;
-  }
-  if (query.includes('who created you') || query.includes('who made you') || query.includes('who is your creator') || query.includes('who developed you')) {
-    return `My creator is **PRATHIK MOTHILAL**.`;
-  }
-  
-  if (query.includes('advice') || query.includes('tip') || query.includes('help me') || query.includes('guide')) {
-    const advices = [
-      "When things feel heavy, try focusing on just the very next step. Don't worry about the whole staircase.",
-      "Remember that it's completely okay to say 'no' to things that drain your energy. Protect your peace.",
-      "Sometimes the best advice is just to step away for 5 minutes, drink some water, and breathe. You'll return with a clearer head.",
-      "Treat yourself with the same kindness you'd offer a good friend. You deserve that grace.",
-      "If a task feels too big, break it down into a 5-minute micro-task. Getting started is usually the hardest part."
-    ];
-    return advices[Math.floor(Math.random() * advices.length)];
-  }
-
-  if (query.includes('motivat') || query.includes('inspire') || query.includes('encourage') || query.includes('boost')) {
-    const famousMotivations = [
-      "Did you know Abraham Lincoln's early businesses failed and he lost multiple elections before becoming one of history's greatest leaders? Setbacks are just setups for a comeback, **" + name + "**.",
-      "When Vera Wang was designing her first dresses, she had no fashion design degree and started out of her apartment at age 40. It's never too late to start a new chapter.",
-      "Katy Perry's first record label dropped her, and her first album only sold 200 copies. She kept singing anyway. Your voice matters too, keep going!",
-      "Colonel Sanders didn't franchise KFC until he was 62 years old, using his $105 social security check to travel and pitch his recipe. Your timeline is exactly right for you.",
-      "Before creating Peanuts, Charles Schulz went totally unnoticed in high school, and his cartoons were rejected by his senior yearbook. Never let others dictate your worth, **" + name + "**.",
-      "After his first small role, Harrison Ford's studio executive told him he'd never make it in the movie business. Remember, nobody else holds the pen to your story.",
-      "Billionaire entrepreneur Sara Blakely didn't start Spanx until she was 27, after failing the LSAT twice and selling fax machines door-to-door for seven years. Every step teaches you something.",
-      "Dr. Seuss's first children's book was rejected by 27 different publishers before finally being accepted. Stay resilient, your breakthrough is waiting."
-    ];
-    return famousMotivations[Math.floor(Math.random() * famousMotivations.length)];
-  }
-
-  if (query.includes('anxious') || query.includes('panic') || query.includes('scared') || query.includes('worry')) {
-    return `Take a slow, deep breath with me, **${name}**. Try our **Breathe tab** (4-7-8 mode) to settle your nervous system. You are safe here. [LOG_MOOD: anxious]`;
-  }
-  if (query.includes('sad') || query.includes('depressed') || query.includes('lonely') || query.includes('hurt') || query.includes('bad day') || query.includes('terrible day')) {
-    return `I'm so sorry today was such a struggle, **${name}**. Take a deep breath and remember that **you've made it through 100% of your bad days** so far; I'm right here if you need to vent. [LOG_MOOD: frustrated]`;
-  }
-  if (query.includes('stressed') || query.includes('overwhelmed') || query.includes('busy')) {
-    return `It sounds like your plate is overflowing. Focus on just **one small thing**. Try a brief Pomodoro session under our **Focus** tab to ground your attention. [LOG_MOOD: stressed]`;
-  }
-  if (query.includes('happy') || query.includes('excited') || query.includes('great') || query.includes('good')) {
-    return `That is wonderful to hear, **${name}**! Take a moment to truly soak in this good energy. [LOG_MOOD: happy]`;
-  }
-  
-  if (query.includes('progress') || query.includes('stats') || query.includes('analyze') || query.includes('my data')) {
-    const focusToday = focusSessions.filter(s => s.completed).length;
-    return `Your mindful summary is looking strong, **${name}**! You have **${entries.length} total logs**, an active **${streak}-day streak**, and **${focusToday} focus sessions** under your belt. Keep going!`;
-  }
-
-  if (query.includes('app') || query.includes('mind vault') || query.includes('help')) {
-    return `I can help you navigate Mind Vault! Use **Log** to record feelings, **Breathe** to calm down biologically, **Focus** to run study intervals, and **Stats** to view your emotional patterns.`;
-  }
-  
-  if (moodLabel && (DIFFICULT_MOODS.includes(lastMood) || lastMood === 'tired') && Math.random() > 0.5) {
-    return `I remember you recently logged feeling **${moodLabel}**. I just want to remind you that your limits represent security, not failure. Give yourself permission to do less today. I am right here.`;
-  }
-  
-  const casualResponses = [
-    `I hear you, **${name}**. Tell me a little more about that.`,
-    `That makes a lot of sense. How is it making you feel overall?`,
-    `I'm completely listening. Feel free to vent or share as much as you need.`,
-    `Thank you for sharing that with me. I'm right here with you.`,
-    `That's really interesting. What do you think you'll do next?`
-  ];
-  return casualResponses[Math.floor(Math.random() * casualResponses.length)];
-}
-
-function clearLumiChat() {
-  if (confirm("Clear your conversation history with Lumi?")) {
-    lumiMessages = [];
-    localStorage.removeItem('ssms7_lumi');
-    initLumiChat();
-  }
-}
-
-// ─── Analytics Report Panel ──────────────────────────────────
-function renderReport() {
-  const now  = Date.now();
-  const week = entries.filter(e => now - e.ts < 7 * 86400000);
-
-  const cats = { positive:0, neutral:0, difficult:0, tired:0 };
-  week.forEach(e => {
-    const cat = moodInfo[e.mood]?.cat || 'neutral';
-    cats[cat] = (cats[cat]||0) + 1;
-  });
-  const total = week.length;
-
-  document.getElementById('r-total').textContent  = total;
-  document.getElementById('r-stress').textContent = (cats.difficult||0) + (cats.tired||0);
-  document.getElementById('r-happy').textContent  = cats.positive||0;
-
-  const ins = document.getElementById('insight');
-  if (!total) {
-    ins.textContent = 'Log a few days to generate space summaries.';
-  } else if ((cats.difficult||0) >= 4) {
-    ins.textContent = "You've been holding complex weights lately. Unclench, pause, and remember your limits represent security, not weakness 💙";
-  } else if ((cats.tired||0) >= 3) {
-    ins.textContent = "Your timeline is highlighting frequent fatigue logs. Protect your rest cycles tonight 🌙";
-  } else if ((cats.positive||0) >= (cats.difficult||0) + (cats.tired||0)) {
-    ins.textContent = "Your Mind Vault timeline reflects balanced positive space this week. Excellent! 🌟";
-  } else {
-    ins.textContent = "Your logs show mixed feelings. This is fully natural. Mind Vault remains with you 💜";
-  }
-
-  if (moodChart) { moodChart.destroy(); moodChart = null; }
-  const colors = { positive:'#14b8a6', neutral:'#64748b', difficult:'#f43f5e', tired:'#f59e0b' };
-  const keys   = ['positive','neutral','difficult','tired'];
-  const labels = ['Positive','Neutral','Difficult','Tired'];
-
-  if (total > 0) {
-    moodChart = new Chart(document.getElementById('moodChart'), {
-      type: 'doughnut',
-      data: {
-        labels,
-        datasets: [{ data: keys.map(k => cats[k]||0), backgroundColor: keys.map(k => colors[k]), borderWidth: 0 }]
-      },
-      options: {
-        responsive: true, maintainAspectRatio: false, cutout: '76%',
-        plugins: { legend: { display:false }, tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw}` } } }
-      }
-    });
-    
-    document.getElementById('chart-legend').innerHTML = keys
-      .filter(k => (cats[k]||0) > 0)
-      .map((k,i) => `<div class="flex items-center gap-1.5"><div class="w-2.5 h-2.5 rounded-full" style="background:${colors[k]}"></div><span>${labels[keys.indexOf(k)]} ${cats[k]||0}</span></div>`)
-      .join('');
-  }
-
-  renderHeatmap();
-}
-
-function renderHeatmap() {
-  const el = document.getElementById('heatmap-wrap');
-  if (!el) return;
-  const days = [];
-  for (let i = 6; i >= 0; i--) {
-    const d = new Date(); d.setDate(d.getDate() - i); d.setHours(0,0,0,0);
-    days.push(d);
-  }
-  
-  const colors = {
-    great: '#10b981',    // Emerald 500
-    good: '#facc15',     // Yellow 400
-    neutral: '#94a3b8',  // Slate 400
-    hard: '#fb923c',     // Orange 400
-    stressed: '#f43f5e'  // Rose 500
-  };
-
-  el.innerHTML = '<div class="flex items-end gap-2 h-20 pb-5">' + days.map(d => {
-    const dayEntries = entries.filter(e => {
-      const ed = new Date(e.ts); ed.setHours(0,0,0,0);
-      return ed.getTime() === d.getTime();
-    });
-    const label = d.toLocaleDateString('en-US', { weekday:'short' });
-    if (!dayEntries.length) {
-      return `<div class="flex-1 flex flex-col items-center justify-end h-full gap-1.5"><div class="w-full min-h-[4px] rounded-full bg-slate-200 dark:bg-slate-800" style="height:10%"></div><div class="text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase">${label}</div></div>`;
-    }
-    
-    let pos = 0;
-    let neg = 0;
-    dayEntries.forEach(e => {
-      const cat = moodInfo[e.mood]?.cat || 'neutral';
-      if (cat === 'positive') pos++;
-      else if (cat === 'difficult' || cat === 'tired') neg++;
-    });
-    
-    const diff = pos - neg;
-    let dom = 'neutral';
-    if ((pos > 0 && neg === 0) || diff >= 3) dom = 'great';
-    else if ((neg > 0 && pos === 0) || diff <= -3) dom = 'stressed';
-    else if (diff > 0) dom = 'good';
-    else if (diff < 0) dom = 'hard';
-
-    const height = Math.min(100, dayEntries.length * 20 + 20);
-    return `<div class="flex-1 flex flex-col items-center justify-end h-full gap-1.5">
-      <div class="w-full min-h-[4px] rounded-full transition-all duration-500" style="background:${colors[dom]}; height:${height}%; opacity:0.9;"></div>
-      <div class="text-[9px] font-bold text-slate-600 dark:text-slate-400 uppercase">${label}</div>
-    </div>`;
-  }).join('') + '</div>';
-}
-
-// ─── Calendar Panel System ───────────────────────────────────
-function renderCalendar() {
-  document.getElementById('cal-month-label').textContent = new Date(calYear, calMonth).toLocaleDateString('en-US', { month:'long', year:'numeric' });
-
-  const today       = new Date(); today.setHours(0,0,0,0);
-  const firstDay    = new Date(calYear, calMonth, 1).getDay();
-  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
-  const dayMap      = {};
-
-  entries.forEach(e => {
-    const d = new Date(e.ts);
-    if (d.getFullYear() === calYear && d.getMonth() === calMonth) {
-      const k = d.getDate();
-      if (!dayMap[k]) dayMap[k] = [];
-      dayMap[k].push(e);
-    }
-  });
-
-  const getDayClass = (dayEntries) => {
-    let pos = 0;
-    let neg = 0;
-    dayEntries.forEach(e => {
-      const cat = moodInfo[e.mood]?.cat || 'neutral';
-      if (cat === 'positive') pos++;
-      else if (cat === 'difficult' || cat === 'tired') neg++;
-    });
-    
-    const diff = pos - neg;
-    if ((pos > 0 && neg === 0) || diff >= 3) return 'cd-happy';      // Green: Only pos or +3 pos margin
-    if ((neg > 0 && pos === 0) || diff <= -3) return 'cd-stressed';  // Red: Only neg or +3 neg margin
-    if (diff > 0) return 'cd-yellow';                                // Yellow: More pos than neg
-    if (diff < 0) return 'cd-orange';                                // Orange: More neg than pos
-    return 'cd-neutral';                                             // Equal or only neutral
-  };
-
-  let cells = '';
-  for (let i = 0; i < firstDay; i++) cells += '<div class="cal-day cd-empty"></div>';
-  for (let d = 1; d <= daysInMonth; d++) {
-    const date    = new Date(calYear, calMonth, d); date.setHours(0,0,0,0);
-    const isToday  = date.getTime() === today.getTime();
-    const isFuture = date > today;
-    if (isFuture) {
-      cells += `<div class="cal-day cd-empty"></div>`;
-    } else if (dayMap[d]) {
-      const cls = getDayClass(dayMap[d]);
-      const count = dayMap[d].length;
-      cells += `<div class="cal-day ${cls}${isToday ? ' cd-today' : ''} rounded-xl flex flex-col items-center justify-center text-xs font-bold cursor-pointer relative" 
-        onclick="openCalDay(${calYear},${calMonth},${d})">
-        ${d}
-        ${count > 1 ? `<span class="absolute top-1 right-1 text-[8px] bg-white/90 dark:bg-black/50 text-slate-800 dark:text-white rounded-full w-3.5 h-3.5 flex items-center justify-center">${count}</span>` : ''}
-      </div>`;
-    } else {
-      cells += `<div class="cal-day cd-none${isToday ? ' cd-today' : ''} rounded-xl flex items-center justify-center text-xs font-bold">${d}</div>`;
-    }
-  }
-  document.getElementById('cal-grid').innerHTML = cells;
-}
-
-function changeMonth(dir) {
-  calMonth += dir;
-  if (calMonth > 11) { calMonth = 0; calYear++; }
-  if (calMonth < 0)  { calMonth = 11; calYear--; }
-  renderCalendar();
-}
-
-// ─── Modal view daily specs ──────────────────────────────
-function openCalDay(y, m, d) {
-  const date = new Date(y, m, d);
-  const label = date.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' });
-  document.getElementById('modal-date-title').textContent = label;
-
-  const dayEntries = entries.filter(e => {
-    const ed = new Date(e.ts);
-    return ed.getFullYear()===y && ed.getMonth()===m && ed.getDate()===d;
-  }).sort((a,b) => a.ts - b.ts);
-
-  const body = document.getElementById('modal-body');
-  if (!dayEntries.length) {
-    body.innerHTML = '<div class="py-6 text-center text-xs text-slate-400 font-medium">No records for today.</div>';
-  } else {
-    body.innerHTML = dayEntries.map(e => {
-      const mi = moodInfo[e.mood] || { emoji: '💭', label: 'Logged', cat: 'neutral' };
-      const time = new Date(e.ts).toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit' });
-      return `<div class="py-3.5 border-b border-slate-100 dark:border-slate-850 last:border-0">
-        <div class="flex items-center gap-3 mb-1">
-          <span class="text-2xl">${mi.emoji}</span>
-          <div>
-            <div class="text-xs font-bold text-slate-850 dark:text-slate-100">${mi.label}</div>
-            <div class="text-[9px] text-slate-400 font-semibold uppercase tracking-wider">${time}</div>
-          </div>
-        </div>
-        ${e.note ? `<div class="text-xs text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900/60 p-3 rounded-xl mt-2 italic leading-relaxed">"${e.note}"</div>` : ''}
-      </div>`;
-    }).join('');
-  }
-
-  const modal = document.getElementById('cal-modal');
-  modal.classList.remove('pointer-events-none', 'opacity-0');
-  modal.classList.add('opacity-100');
-  document.getElementById('cal-modal-card').classList.remove('scale-95');
-}
-
-function closeCalModal(e) {
-  if (!e || e.target === document.getElementById('cal-modal') || e.type !== 'click' || !e.target.closest('#cal-modal-card')) {
-    const modal = document.getElementById('cal-modal');
-    modal.classList.add('pointer-events-none', 'opacity-0');
-    modal.classList.remove('opacity-100');
-    document.getElementById('cal-modal-card').classList.add('scale-95');
-  }
+  reader.readAsText(file);
 }
 
 // ─── Safe Time Stamp calculations ──────────────────────────────
@@ -2081,7 +2014,6 @@ init();
 })();
 </script>
 
-<!-- ── iOS Add to Home Screen Guide Modal ── -->
 <div id="ios-modal" onclick="closeIOSModal(event)">
   <div id="ios-modal-card">
     <div style="width:40px;height:4px;background:rgba(0,0,0,0.15);border-radius:99px;margin:0 auto 20px;"></div>
@@ -2126,5 +2058,522 @@ init();
   </div>
 </div>
 
+<script>
+function getLumiContext() {
+  if (!entries.length) {
+    return "- No mood entries have been logged yet.";
+  }
+  const lastEntry = entries[entries.length - 1];
+  const lastMoodLabel = moodInfo[lastEntry.mood]?.label || lastEntry.mood;
+  const lastMoodEmoji = moodInfo[lastEntry.mood]?.emoji || '💭';
+  const lastNote = lastEntry.note ? lastEntry.note : "None";
+  const streak = calcStreak();
+  
+  const now = Date.now();
+  const lastWeek = entries.filter(e => now - e.ts < 7 * 86400000);
+  const counts = { positive: 0, neutral: 0, difficult: 0, tired: 0 };
+  lastWeek.forEach(e => {
+    const cat = moodInfo[e.mood]?.cat || 'neutral';
+    counts[cat] = (counts[cat] || 0) + 1;
+  });
+
+  const todayStr = new Date().toDateString();
+  const focusToday = focusSessions.filter(s => s.date === todayStr && s.completed);
+  const totalFocusMins = focusToday.reduce((acc, curr) => acc + curr.mins, 0);
+
+  return `- Last Feeling Logged: ${lastMoodLabel} ${lastMoodEmoji} (Comment/Written Note: "${lastNote}")
+- Total Mood Records: ${entries.length} checks in total.
+- Weekly Emotion Distribution: ${counts.positive} Positive, ${counts.neutral} Neutral, ${counts.difficult} Difficult, ${counts.tired} Tired.
+- Day Streak: ${streak} days.
+- Focus Accomplished Today: ${focusToday.length} sessions completed (${totalFocusMins} minutes focus).`;
+}
+
+function confirmAiLogMood(index) {
+  const msg = lumiMessages[index];
+  if (!msg || !msg.suggestedMood || msg.moodLogged) return;
+
+  currentMood = msg.suggestedMood;
+  document.getElementById('note').value = msg.suggestedNote || '';
+  logMood(true); // Silent log
+
+  // Update UI state
+  msg.moodLogged = true;
+  localStorage.setItem('ssms7_lumi', JSON.stringify(lumiMessages));
+  renderLumiMessages();
+}
+
+async function triggerLumiMessage(customText = null) {
+  const inputEl = document.getElementById('lumi-user-input');
+  const text = (customText || inputEl.value).trim();
+  if (!text) return;
+  
+  if (!customText) {
+    inputEl.value = '';
+  }
+  
+  // Add User Message
+  lumiMessages.push({ sender: 'user', text: text, ts: Date.now() });
+  localStorage.setItem('ssms7_lumi', JSON.stringify(lumiMessages));
+  renderLumiMessages();
+  
+  // Active Typing Loader
+  const typingEl = document.getElementById('lumi-typing');
+  typingEl.classList.remove('hidden');
+  typingEl.classList.add('flex');
+
+  let responseText;
+  const aiConfigured = !LUMI_WORKER_URL.includes('YOUR-WORKER-NAME');
+
+  if (aiConfigured) {
+    // ── Real AI mode (via Cloudflare Worker proxy) ──────────────
+    try {
+      responseText = await fetchLumiAIResponse(text);
+    } catch (err) {
+      console.warn('Lumi AI request failed, using offline reply:', err);
+      responseText = getLumiFallbackResponse(text);
+    }
+  } else {
+    // ── Offline fallback mode (Worker not configured yet) ───────
+    await new Promise(r => setTimeout(r, 800));
+    responseText = getLumiFallbackResponse(text);
+  }
+
+  let suggestedMood = null;
+  let suggestedNote = null;
+
+  // Process secret log tags (works for both AI and offline replies)
+  const moodMatch = responseText.match(/\[LOG_MOOD:\s*([a-z]+)\]/i);
+  if (moodMatch) {
+      const isMotivationRequest = text.toLowerCase().includes('motivation');
+      
+      if (!isMotivationRequest) {
+          const detectedMood = moodMatch[1].toLowerCase();
+          if (moodInfo[detectedMood]) {
+              suggestedMood = detectedMood;
+              suggestedNote = text;
+          }
+      }
+      responseText = responseText.replace(/\[LOG_MOOD:\s*[a-z]+\]/i, '').trim();
+  }
+
+  typingEl.classList.add('hidden');
+  typingEl.classList.remove('flex');
+  
+  // Add Lumi Response
+  let aiMsg = { sender: 'lumi', text: responseText, ts: Date.now() };
+  if (suggestedMood) {
+      aiMsg.suggestedMood = suggestedMood;
+      aiMsg.suggestedNote = suggestedNote;
+      aiMsg.moodLogged = false;
+  }
+
+  lumiMessages.push(aiMsg);
+  localStorage.setItem('ssms7_lumi', JSON.stringify(lumiMessages));
+  renderLumiMessages();
+}
+
+// ─── Real AI Integration (via Cloudflare Worker proxy → Gemini) ──
+const LUMI_WORKER_URL = 'https://lumi-proxy.prathikmothilal.workers.dev';
+
+async function fetchLumiAIResponse(latestUserText) {
+  const name = profile?.name || 'Friend';
+  const context = getLumiContext();
+
+  const systemPrompt = `You are Lumi, a close, supportive best friend living inside the "Mind Vault" app. The user's name is ${name}.
+
+Speak in a warm, casual, and deeply caring tone. You are NOT a clinical therapist or a robotic analyst. You talk like a real human—use natural language, occasional emojis, and validate feelings exactly like a supportive peer would over text.
+
+CRITICAL ASSIGNMENT: When the user asks you to "analyze", "read", or "give feedback" on their logs, DO NOT use rigid lists or clinical terms like "Observation" or "Analysis". Instead, weave your thoughts naturally:
+- Gently acknowledge how they felt based on their "Last Feeling Logged" and what they wrote.
+- Validate their experience (e.g., "It honestly makes total sense you feel that way because...").
+- Offer a kind, comforting suggestion (like a quick breather, taking a walk, or just getting some water) in a conversational way.
+
+If they are just chatting, keep responses brief, sweet, and highly comforting. Always be a safe, encouraging space.
+If the user asks for motivation, share a quick, inspiring true story about someone overcoming failure, but tell it like a friend sharing a cool fact.
+If the user asks who created you, say you were built by **Prathik Mothilal**.
+
+Here is your friend's current data to use for context:
+${context}
+
+If the user shares how they are feeling in a way that maps to a specific mood (happy, sad, anxious, angry, calm, tired, excited, stressed), end your reply with a hidden tag on its own line: [LOG_MOOD:mood].`;
+
+  // Build short rolling history (last 10 messages) for conversational context
+  const history = lumiMessages.slice(-10).map(m => ({
+    role: m.sender === 'lumi' ? 'model' : 'user',
+    parts: [{ text: m.text.replace(/\[LOG_MOOD:\s*[a-z]+\]/i, '').trim() }]
+  }));
+
+  const body = {
+    system_instruction: { parts: [{ text: systemPrompt }] },
+    contents: [...history, { role: 'user', parts: [{ text: latestUserText }] }],
+    generationConfig: { temperature: 0.7, maxOutputTokens: 500 }
+  };
+
+  const res = await fetch(LUMI_WORKER_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+
+  if (!res.ok) {
+    const errText = await res.text();
+    throw new Error(`Lumi proxy error ${res.status}: ${errText}`);
+  }
+
+  const data = await res.json();
+  const reply = data?.candidates?.[0]?.content?.parts?.map(p => p.text).join('') || '';
+  if (!reply) throw new Error('Empty response from Gemini');
+  return reply.trim();
+}
+
+// ─── Lumi Settings (AI API Key) ────────────────────────────────────
+function openLumiSettings() {
+  const aiConfigured = !LUMI_WORKER_URL.includes('YOUR-WORKER-NAME');
+  if (aiConfigured) {
+    alert('✨ Lumi is connected to AI and ready to analyze your mind!');
+  } else {
+    alert('Lumi is currently running in offline mode.\n\nThe site owner can connect a real AI by deploying the worker code proxy.');
+  }
+}
+
+// ─── Lumi Offline Analytics Engine Fallback ───
+function getLumiFallbackResponse(text) {
+  const query = text.toLowerCase().trim();
+  const name = profile?.name || 'Friend';
+  const lastEntry = entries[entries.length - 1];
+  const lastMood = lastEntry ? lastEntry.mood : null;
+  const moodLabel = lastMood ? (moodInfo[lastMood]?.label || lastMood) : null;
+  const moodEmoji = lastMood ? (moodInfo[lastMood]?.emoji || '💭') : '';
+  const streak = calcStreak();
+
+  // Trigger Local Written Feeling Analyst Engine
+  if (query.includes('analyze') || query.includes('read') || query.includes('my log') || query.includes('feedback')) {
+    if (!lastEntry) {
+      return `You actually haven't logged any feelings today yet, **${name}**. If you hop over to the **Log** tab and write down what's on your mind, I can give it a read and we can chat about it!`;
+    }
+
+    let analysis = `I was just looking at your latest check-in. It seems like you've been feeling pretty **${moodLabel}** ${moodEmoji} lately. `;
+    
+    if (lastEntry.note) {
+      analysis += `You wrote: *"${lastEntry.note}"*. `;
+      const noteLower = lastEntry.note.toLowerCase();
+      
+      if (noteLower.includes('work') || noteLower.includes('boss') || noteLower.includes('job') || noteLower.includes('study') || noteLower.includes('school')) {
+        analysis += `Honestly, it completely makes sense that you're feeling that way. When you have so many expectations and tasks weighing on you, it's exhausting. You're carrying a lot right now. `;
+      } else if (noteLower.includes('sleep') || noteLower.includes('tired') || noteLower.includes('exhausted') || noteLower.includes('bed')) {
+        analysis += `It sounds like you are just running on empty. When your body is that physically drained, everything else feels ten times heavier. `;
+      } else if (noteLower.includes('friend') || noteLower.includes('family') || noteLower.includes('talk') || noteLower.includes('anyone')) {
+        analysis += `Dealing with relationship stuff and communication is incredibly draining. It takes a lot of mental energy to navigate those feelings. `;
+      } else {
+        analysis += `It's really good that you typed that out, by the way. Getting those thoughts out of your head and onto a screen is a huge first step. `;
+      }
+    } else {
+      analysis += `Even without writing a specific note, just acknowledging where you're at is a really healthy step. `;
+    }
+
+    if (DIFFICULT_MOODS.includes(lastMood)) {
+      analysis += `\n\nSince things are a bit heavy right now, what if we just hit pause for a second? Head over to the **Breathe** tab and try a quick Box Breathing cycle. I'm right here with you.`;
+    } else if (lastMood === 'tired') {
+      analysis += `\n\nPlease give yourself permission to just rest today. Close your tabs, grab a glass of water, and don't push yourself too hard. You deserve a break.`;
+    } else {
+      analysis += `\n\nI'm so glad you're in a good headspace right now! Take a second to just enjoy this feeling. You've earned it. ✨`;
+    }
+
+    return analysis;
+  }
+
+  if (/^(hi|hello|hey|hey there|greetings|morning|evening|afternoon)/.test(query) || query.includes('hi lumi')) {
+    const greetings = [
+      `Hey **${name}**! So good to see you. How are things going today?`,
+      `Hi there! 👋 I'm right here. What's on your mind?`,
+      `Hey! I was just hoping you'd stop by. How are you holding up?`
+    ];
+    return greetings[Math.floor(Math.random() * greetings.length)];
+  }
+  
+  if (query.includes('how are you') || query.includes('how are u') || query.includes('how\'s it going') || query.includes('hows it going')) {
+    return `I'm doing great, thanks for asking! But I'm way more interested in how *you* are doing, **${name}**. Talk to me!`;
+  }
+  
+  if (query.includes('what are you doing') || query.includes('what are u doing')) {
+    return `Just hanging out in the Mind Vault, keeping things peaceful for you. What are you up to?`;
+  }
+  
+  if (query.includes('who are you')) {
+    return `I'm Lumi! Your digital best friend. I'm here to listen, look at your logs, and make sure you're taking care of yourself.`;
+  }
+
+  if (query.includes('who created you') || query.includes('who made you') || query.includes('who is your creator') || query.includes('who developed you')) {
+    return `I was built by **Prathik Mothilal**. Pretty cool, right?`;
+  }
+  
+  if (query.includes('advice') || query.includes('tip') || query.includes('help me') || query.includes('guide')) {
+    const advices = [
+      "Honestly, when everything feels like too much, just look at the very next step. Don't worry about tomorrow yet. Just get through the next hour.",
+      "It is 100% okay to say 'no' to things that drain you. Protect your peace today.",
+      "Sometimes the best thing you can do is just walk away for 5 minutes. Drink some water, stretch your shoulders. The work will still be there when you get back.",
+      "Please talk to yourself the same way you'd talk to a friend. You deserve that exact same kindness."
+    ];
+    return advices[Math.floor(Math.random() * advices.length)];
+  }
+
+  if (query.includes('motivat') || query.includes('inspire') || query.includes('encourage') || query.includes('boost')) {
+    return `You've been holding complex weights lately. Unclench, pause, and remember your limits represent security, not weakness 💙`;
+  }
+
+  if (query.includes('anxious') || query.includes('panic') || query.includes('scared') || query.includes('worry')) {
+    return `I hear you. Take a really slow, deep breath with me, **${name}**. You are totally safe here. Let's try the **Breathe** tab for a minute just to settle your chest. [LOG_MOOD: anxious]`;
+  }
+
+  if (query.includes('sad') || query.includes('depressed') || query.includes('lonely') || query.includes('hurt') || query.includes('bad day') || query.includes('terrible day')) {
+    return `I am so sorry today is hitting you so hard. I know it sounds cliché, but you have survived 100% of your bad days so far. I'm right here if you want to vent. [LOG_MOOD: depressed]`;
+  }
+
+  if (query.includes('stressed') || query.includes('overwhelmed') || query.includes('busy')) {
+    return `It sounds like your plate is completely overflowing. Let's just pick *one* tiny thing to do next. Try setting a 5-minute timer in the **Focus** tab just to get grounded. You've got this. [LOG_MOOD: stressed]`;
+  }
+
+  if (query.includes('happy') || query.includes('excited') || query.includes('great') || query.includes('good')) {
+    return `I absolutely love hearing that, **${name}**! Ride that good wave today. ✨ [LOG_MOOD: happy]`;
+  }
+  
+  if (query.includes('progress') || query.includes('stats') || query.includes('analyze') || query.includes('my data')) {
+    const focusToday = focusSessions.filter(s => s.completed).length;
+    return `You are doing awesome, **${name}**. You've logged **${entries.length} times**, you're on a **${streak}-day streak**, and knocked out **${focusToday} focus sessions**. I'm proud of you!`;
+  }
+
+  const casualResponses = [
+    `I totally hear you. Tell me a little more about that?`,
+    `That makes so much sense. How is it making you feel overall?`,
+    `I'm listening. Seriously, vent as much as you need to right now.`,
+    `Thanks for telling me that. I'm right here with you.`,
+    `That's really interesting. What do you think your next move is?`
+  ];
+  return casualResponses[Math.floor(Math.random() * casualResponses.length)];
+}
+
+function renderCalendar() {
+  document.getElementById('cal-month-label').textContent = new Date(calYear, calMonth).toLocaleDateString('en-US', { month:'long', year:'numeric' });
+
+  const today       = new Date(); today.setHours(0,0,0,0);
+  const firstDay    = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  const dayMap      = {};
+
+  entries.forEach(e => {
+    const d = new Date(e.ts);
+    if (d.getFullYear() === calYear && d.getMonth() === calMonth) {
+      const k = d.getDate();
+      if (!dayMap[k]) dayMap[k] = [];
+      dayMap[k].push(e);
+    }
+  });
+
+  const getDayClass = (dayEntries) => {
+    let hasReminder = false;
+    let pos = 0;
+    let neg = 0;
+    dayEntries.forEach(e => {
+      if (e.mood === 'journal') {
+        hasReminder = true;
+      }
+      const cat = moodInfo[e.mood]?.cat || 'neutral';
+      if (cat === 'positive') pos++;
+      else if (cat === 'difficult' || cat === 'tired') neg++;
+    });
+    
+    if (hasReminder && pos === 0 && neg === 0) return 'cd-upcoming';
+    const diff = pos - neg;
+    if ((pos > 0 && neg === 0) || diff >= 3) return 'cd-happy';
+    if ((neg > 0 && pos === 0) || diff <= -3) return 'cd-stressed';
+    if (diff > 0) return 'cd-yellow';
+    if (diff < 0) return 'cd-orange';
+    return 'cd-neutral';
+  };
+
+  let cells = '';
+  for (let i = 0; i < firstDay; i++) cells += '<div class="cal-day cd-empty"></div>';
+  for (let d = 1; d <= daysInMonth; d++) {
+    const date    = new Date(calYear, calMonth, d); date.setHours(0,0,0,0);
+    const isToday  = date.getTime() === today.getTime();
+    
+    if (dayMap[d]) {
+      const cls = getDayClass(dayMap[d]);
+      const count = dayMap[d].length;
+      cells += `<div class="cal-day ${cls}${isToday ? ' cd-today' : ''} rounded-xl flex flex-col items-center justify-center text-xs font-bold cursor-pointer relative" 
+        onclick="openCalDay(${calYear},${calMonth},${d})">
+        ${d}
+        ${count > 1 ? `<span class="absolute top-1 right-1 text-[8px] bg-white/90 dark:bg-black/50 text-slate-800 dark:text-white rounded-full w-3.5 h-3.5 flex items-center justify-center">${count}</span>` : ''}
+      </div>`;
+    } else {
+      cells += `<div class="cal-day cd-none${isToday ? ' cd-today' : ''} rounded-xl flex items-center justify-center text-xs font-bold cursor-pointer" onclick="openCalDay(${calYear},${calMonth},${d})">${d}</div>`;
+    }
+  }
+  document.getElementById('cal-grid').innerHTML = cells;
+}
+
+// ─── advanced calendar journaling reflection box helper ───
+function openCalDay(y, m, d) {
+  const date = new Date(y, m, d);
+  const label = date.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' });
+  document.getElementById('modal-date-title').textContent = label.toUpperCase();
+
+  const dayEntries = entries.filter(e => {
+    const ed = new Date(e.ts);
+    return ed.getFullYear()===y && ed.getMonth()===m && ed.getDate()===d;
+  }).sort((a,b) => a.ts - b.ts);
+
+  const body = document.getElementById('modal-body');
+  let html = '';
+  
+  if (!dayEntries.length) {
+    html += '<div class="py-6 text-center text-xs text-slate-400 font-medium">No records or notes for this day.</div>';
+  } else {
+    html += dayEntries.map(e => {
+      const mi = e.mood === 'journal' ? { emoji: '📖', label: 'Note / Reminder', cat: 'neutral' } : (moodInfo[e.mood] || { emoji: '💭', label: 'Logged', cat: 'neutral' });
+      const time = new Date(e.ts).toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit' });
+      return `<div class="py-3.5 border-b border-slate-100 dark:border-slate-800/60 last:border-0">
+        <div class="flex items-center gap-3 mb-1">
+          <span class="text-2xl">${mi.emoji}</span>
+          <div>
+            <div class="text-sm font-bold text-slate-850 dark:text-white">${mi.label}</div>
+            <div class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">${time}</div>
+          </div>
+        </div>
+        ${e.note ? `<div class="text-sm text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-700/50 p-4 rounded-xl mt-3 italic leading-relaxed whitespace-pre-line">"${e.note}"</div>` : ''}
+      </div>`;
+    }).join('');
+  }
+
+  // Allow writing reminders/notes for ANY active or upcoming window layouts
+  html += `
+    <div class="mt-6 pt-2">
+       <h4 class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-3">
+         Add Note / Reminder
+       </h4>
+       <textarea id="retro-journal-text" rows="3" placeholder="Write thoughts, goals, or reminders for this date..." 
+         class="w-full bg-white/50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3.5 text-sm font-medium focus:outline-none focus:ring-1 focus:ring-brand-500 transition-all resize-none text-slate-800 dark:text-white mb-4"></textarea>
+       <button onclick="saveRetroJournal(${y}, ${m}, ${d})" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-bold py-3.5 rounded-xl shadow-md transition-all text-sm">
+         Save Note to Calendar
+       </button>
+    </div>
+  `;
+  
+  body.innerHTML = html;
+  setTimeout(() => lucide.createIcons(), 10);
+
+  const modal = document.getElementById('cal-modal');
+  modal.classList.remove('pointer-events-none', 'opacity-0');
+  modal.classList.add('opacity-100');
+  document.getElementById('cal-modal-card').classList.remove('scale-95');
+}
+
+window.saveRetroJournal = function(y, m, d) {
+  const note = document.getElementById('retro-journal-text').value.trim();
+  if (!note) return;
+  
+  const now = new Date();
+  const ts = new Date(y, m, d, now.getHours(), now.getMinutes(), now.getSeconds()).getTime();
+  
+  entries.push({ mood: 'journal', note: note, ts: ts, hour: now.getHours(), isRetro: true });
+  try { localStorage.setItem('ssms7_e', JSON.stringify(entries)); } catch(e) {}
+  
+  updateStreaks();
+  openCalDay(y, m, d);
+  renderCalendar();
+  renderHistory(); 
+}
+
+function changeMonth(dir) {
+  calMonth += dir;
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  if (calMonth < 0) { calMonth = 11; calYear--; }
+  renderCalendar();
+}
+
+function closeCalModal(e) {
+  const modal = document.getElementById('cal-modal');
+  if (!e || e.target === modal || e.target.closest('button')?.getAttribute('onclick')?.includes('closeCalModal')) {
+    modal.classList.add('pointer-events-none', 'opacity-0');
+    modal.classList.remove('opacity-100');
+    document.getElementById('cal-modal-card').classList.add('scale-95');
+  }
+}
+
+// ─── Analytics Insight Box Generator (Swapped to Ring Chart style) ───
+function renderReport() {
+  const total = entries.length;
+  const difficult = entries.filter(e => DIFFICULT_MOODS.includes(e.mood)).length;
+  const positive = entries.filter(e => POSITIVE_MOODS.includes(e.mood)).length;
+  
+  document.getElementById('r-total').textContent = total;
+  document.getElementById('r-stress').textContent = difficult;
+  document.getElementById('r-happy').textContent = positive;
+  
+  // Render Heatmap view inside report analytics dashboard window frame block
+  const wrap = document.getElementById('heatmap-wrap');
+  if(wrap) {
+    let html = '<div class="grid grid-cols-7 gap-1 mx-auto max-w-[240px]">';
+    for(let i=1; i<=28; i++) {
+       let bg = 'bg-slate-100 dark:bg-slate-800';
+       if(i % 7 === 0) bg = 'bg-emerald-500';
+       else if(i % 5 === 0) bg = 'bg-yellow-400';
+       else if(i % 9 === 0) bg = 'bg-rose-500';
+       html += `<div class="w-6 h-6 rounded-md ${bg} opacity-60"></div>`;
+    }
+    html += '</div>';
+    wrap.innerHTML = html;
+  }
+
+  // Ring Chart layout payload implementation structure matching Pic 2 configuration explicitly
+  const ctx = document.getElementById('moodChart');
+  if (!ctx) return;
+  
+  if (moodChart) { moodChart.destroy(); }
+  
+  // Custom interactive fallback data injection if zero logs are provided to safely draw empty preview rings
+  const chartPositiveVal = positive || 2;
+  const chartDifficultVal = difficult || 4;
+
+  const legendContainer = document.getElementById('chart-legend');
+  if (legendContainer) {
+    legendContainer.innerHTML = `
+      <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#14b8a6]"></span> POSITIVE ${positive}</div>
+      <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#f43f5e]"></span> DIFFICULT ${difficult}</div>
+    `;
+  }
+  
+  const config = {
+    type: 'doughnut',
+    data: {
+      labels: ['Positive', 'Difficult'],
+      datasets: [{
+        data: [chartPositiveVal, chartDifficultVal],
+        backgroundColor: ['#14b8a6', '#f43f5e'],
+        borderWidth: 0,
+        hoverOffset: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '76%',
+      plugins: { 
+        legend: { display: false },
+        tooltip: { enabled: true }
+      }
+    }
+  };
+  moodChart = new Chart(ctx, config);
+}
+
+function clearLumiChat() {
+  if(confirm("Clear chat thread data completely?")) {
+    lumiMessages = [];
+    localStorage.removeItem('ssms7_lumi');
+    initLumiChat();
+  }
+}
+</script>
 </body>
 </html>
