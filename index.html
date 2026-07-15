@@ -1337,15 +1337,34 @@ function updateStreaks() {
 }
 
 function calcStreak() {
-  if (!entries.length) return 0;
-  const today = new Date(); today.setHours(0,0,0,0);
-  const sortedDates = [...new Set(entries.map(e => new Date(e.ts).toDateString()))]
-    .map(d => new Date(d)).sort((a,b) => b - a);
+  // 1. Filter out calendar notes/reminders so they don't break the streak
+  const moodEntries = entries.filter(e => e.mood !== 'journal');
   
+  if (!moodEntries.length) return 0;
+  
+  const today = new Date(); today.setHours(0,0,0,0);
+  const yesterday = new Date(today); yesterday.setDate(today.getDate() - 1);
+  
+  // 2. Sort actual mood logs chronologically
+  const sortedDates = [...new Set(moodEntries.map(e => new Date(e.ts).toDateString()))]
+    .map(d => new Date(d))
+    .sort((a,b) => b.getTime() - a.getTime());
+  
+  const mostRecentEntry = new Date(sortedDates[0]); mostRecentEntry.setHours(0,0,0,0);
+  
+  // 3. If the last check-in isn't from today or yesterday, streak is 0
+  if (mostRecentEntry.getTime() !== today.getTime() && mostRecentEntry.getTime() !== yesterday.getTime()) {
+    return 0;
+  }
+  
+  // 4. Count backward from the most recent valid day
+  const anchorDate = new Date(mostRecentEntry);
   let currentStreak = 0;
+  
   for (let i = 0; i < sortedDates.length; i++) {
     const entryDate = new Date(sortedDates[i]); entryDate.setHours(0,0,0,0);
-    const expectedDate = new Date(today); expectedDate.setDate(today.getDate() - i);
+    const expectedDate = new Date(anchorDate); expectedDate.setDate(anchorDate.getDate() - i);
+    
     if (entryDate.getTime() === expectedDate.getTime()) {
       currentStreak++;
     } else {
